@@ -7,18 +7,18 @@ import main.ShapeMapping.Kind;
 
 public class Shape extends PApplet{
 
-	private int shapeOrder;	//¸ÅÇÎµÇ´Â µµÇü¹øÈ£
+	private int shapeOrder;	//ë§¤í•‘ë˜ëŠ” ë„í˜•ë²ˆí˜¸
 	private ShapeMapping mapping;
-	private String[] param;	// µµÇü¿¡ ´ëÇÑ ÆÄ¶ó¹ÌÅÍ
+	private String[] param;	// ë„í˜•ì— ëŒ€í•œ íŒŒë¼ë¯¸í„°
 	private PApplet pApplet;
-	private String[] rgb = new String[3];	// µµÇü»ö»ó
-	private float widthLocation;	//ÁÂ¿ì À§Ä¡
-	private float heightLocation;	//³ôÀÌ À§Ä¡
-	private float velocity = (float)1.3;	//³»·Á¿À´Â ¼Óµµ
-	private float sizeX;	// µµÇü ÁÂ¿ì»çÀÌÁî
-	private float sizeY;	// µµÇü ³ôÀÌ»çÀÌÁî 
-	private int backgroundWidth;	//¹è°æ ÁÂ¿ì»çÀÌÁî
-	private int backgroundHeight;	//¹è°æ ³ôÀÌ»çÀÌÁî
+	private String[] rgb = new String[3];	// ë„í˜•ìƒ‰ìƒ
+	private float widthLocation;	//ì¢Œìš° ìœ„ì¹˜
+	private float heightLocation;	//ë†’ì´ ìœ„ì¹˜
+	private float velocity = (float)1.3;	//ë‚´ë ¤ì˜¤ëŠ” ì†ë„
+	private float sizeX;	// ë„í˜• ì¢Œìš°ì‚¬ì´ì¦ˆ
+	private float sizeY;	// ë„í˜• ë†’ì´ì‚¬ì´ì¦ˆ 
+	private int backgroundWidth;	//ë°°ê²½ ì¢Œìš°ì‚¬ì´ì¦ˆ
+	private int backgroundHeight;	//ë°°ê²½ ë†’ì´ì‚¬ì´ì¦ˆ
 	
 	
 	public Shape(PApplet p, int backgroundWidth, int backgroundHeight) {
@@ -39,20 +39,20 @@ public class Shape extends PApplet{
 		this.backgroundWidth = backgroundWidth;
 		this.backgroundHeight = backgroundHeight;
 		System.arraycopy(param, 0, rgb, 0, 3);
-		pApplet.fill(Integer.parseInt(rgb[0].trim()), Integer.parseInt(rgb[1].trim()), Integer.parseInt(rgb[2].trim()));	//µµÇü »ö»ó ÁöÁ¤
+		pApplet.fill(Integer.parseInt(rgb[0].trim()), Integer.parseInt(rgb[1].trim()), Integer.parseInt(rgb[2].trim()));	//ë„í˜• ìƒ‰ìƒ ì§€ì •
 	
-		if(this.heightLocation + this.velocity + moveHeight < (this.backgroundHeight - this.sizeY + 5)) {	// µµÇüÀÌ ¹Ù´Ú°ú ¸¸³ª±â Àü±îÁö¸¸ ³»·Á°£´Ù.
-			this.heightLocation += this.velocity + moveHeight;	// ³ôÀÌ°ª ÁöÁ¤
+		if(this.heightLocation + this.velocity + moveHeight < (this.backgroundHeight - this.sizeY + 5)) {	// ë„í˜•ì´ ë°”ë‹¥ê³¼ ë§Œë‚˜ê¸° ì „ê¹Œì§€ë§Œ ë‚´ë ¤ê°„ë‹¤.
+			this.heightLocation += this.velocity + moveHeight;	// ë†’ì´ê°’ ì§€ì •
 			
-			if(this.widthLocation + moveWidth < 5) {	// ¿ŞÂÊ ³¡À¸·Î °¬À» ¶§
+			if(this.widthLocation + moveWidth < 5) {	// ì™¼ìª½ ëìœ¼ë¡œ ê°”ì„ ë•Œ
 				this.widthLocation = 5;
-			}else if(this.widthLocation + moveWidth > this.backgroundWidth - sizeX + 5) {	//¿À¸¥ÂÊ ³¡À¸·Î °¬À» ¶§
+			}else if(this.widthLocation + moveWidth > this.backgroundWidth - sizeX + 5) {	//ì˜¤ë¥¸ìª½ ëìœ¼ë¡œ ê°”ì„ ë•Œ
 				this.widthLocation = this.backgroundWidth - sizeX + 5;
 			}else{
-				this.widthLocation += moveWidth;	//ÁÂ¿ì°ª ÁöÁ¤
+				this.widthLocation += moveWidth;	//ì¢Œìš°ê°’ ì§€ì •
 			}
 		}
-		else {	// µµÇü°ú ¹Ù´ÚÀÌ ¸¸³­´Ù.
+		else {	// ë„í˜•ê³¼ ë°”ë‹¥ì´ ë§Œë‚œë‹¤.
 			this.heightLocation = this.backgroundHeight - this.sizeY + 5;	
 			System.out.println("width = " + this.widthLocation + ", height = " + this.heightLocation);
 		}

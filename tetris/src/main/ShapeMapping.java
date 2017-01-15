@@ -4,9 +4,9 @@ public class ShapeMapping {
 
 	private String shapeParam;
 	
-	public enum Kind {	//µµÇü Á¾·ù (r, g, b, xÀ§Ä¡, yÀ§Ä¡, µµÇü ÁÂ¿ì ±æÀÌ, µµÇü »óÇÏ ±æÀÌ)
-		square("255, 0, 0, 205, 5, 100, 100")	//»ç°¢Çü
-		, stick("0, 0, 255, 155, 5, 200, 25");	//1ÀÚÇü
+	public enum Kind {	//ë„í˜• ì¢…ë¥˜ (r, g, b, xìœ„ì¹˜, yìœ„ì¹˜, ë„í˜• ì¢Œìš° ê¸¸ì´, ë„í˜• ìƒí•˜ ê¸¸ì´)
+		square("255, 0, 0, 205, 5, 100, 100")	//ì‚¬ê°í˜•
+		, stick("0, 0, 255, 155, 5, 200, 25");	//1ìí˜•
 		
 		private String param;
 		
