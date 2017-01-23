@@ -4,15 +4,15 @@ import processing.core.PApplet;
 
 public class Background extends PApplet{
 	private PApplet pApplet;
-	private int aperture = 5;
+	//private int aperture = 5;
 	
 	public Background(PApplet p) {
 		pApplet = p;
 	}
 	
-	public void init(int backWidth, int backHeight) {
+	public void init(int backgroundWidth, int backgroundHeight) {
 		pApplet.fill(0, 0, 0);
-		pApplet.quad(aperture, aperture, aperture, backHeight + aperture, backWidth + aperture, backHeight + aperture, backWidth + aperture, aperture);
+		pApplet.rect(0, 0, backgroundWidth, backgroundHeight);
 	}
 	
 	public void changeBackground() {
