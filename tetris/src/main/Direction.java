@@ -5,8 +5,5 @@ public enum Direction {
 	, right
 	, up
 	, down
-	, cannotLeft
-	, cannotRight
-	, cannotDown
 	, nothing
 }
