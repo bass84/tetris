@@ -49,49 +49,30 @@ public class Shape {
 		return this.rgb;
 	}
 	
-	protected boolean isBottom(Direction direction) {
-		for(int i = this.widthLocation; i < this.widthLocation + this.sizeX; i += MainController.blockLength) {
-			for(int j = this.heightLocation; j < this.heightLocation + this.sizeY; j += MainController.blockLength) {
-				if(MainController.isUsed[(i / MainController.blockLength) + 1][(j / MainController.blockLength) + 1]) {
-					this.addUsed();
-					return true;
-				}
-			}
-		}
-		
+	
+	protected void drawShape(Direction direction) {	//현재 도형을 그린다.
 		this.moveWidth(direction);
-		this.drawShape(direction);
-		
-		return false;
-	}
-	
-	
-	private void drawShape(Direction direction) {
 		this.heightLocation += (direction == Direction.down ? MainController.blockLength : 0);
 		if(pApplet.frameCount % this.downTerm == 0) this.heightLocation += MainController.blockLength;
+
 		pApplet.fill(rgb[0], rgb[1], rgb[2]);	//도형 색상 지정
 		pApplet.rect(this.widthLocation, this.heightLocation, this.sizeX, this.sizeY);
 	}
 	
-
-	private void addUsed() {
-		for(int i = this.widthLocation; i < this.widthLocation + this.sizeX; i += MainController.blockLength) {
-			for(int j = this.heightLocation; j < this.heightLocation + this.sizeY; j += MainController.blockLength) {
-				MainController.isUsed[i / MainController.blockLength + 1][j / MainController.blockLength] = true;
-			}
-		}
+	
+	private void moveWidth(Direction direction) {	// 얖옆 움직임 컨트롤
+		int x1 = this.widthLocation / MainController.blockLength;
+		int x2 = x1 + (this.sizeX / MainController.blockLength);
+		int y1 = this.heightLocation / MainController.blockLength;
+		int y2 = y1 + (this.sizeY /MainController.blockLength);
 		
-	}
-	
-	
-	private void moveWidth(Direction direction) {
-		for(int i = this.widthLocation; i < this.widthLocation + this.sizeX; i += MainController.blockLength) {
-			for(int j = this.heightLocation; j < this.heightLocation + this.sizeY; j += MainController.blockLength) {
-				if(MainController.isUsed[i / MainController.blockLength][(j / MainController.blockLength)]) {
+		for(int i = x1; i < x2; i++) {
+			for(int j = y1; j < y2; j++) {
+				if(MainController.isUsed[i][j]) {
 					this.widthLocation += (direction == Direction.right ? (MainController.blockLength) : 0);
 					return;
-				}else if(MainController.isUsed[i / MainController.blockLength][(j / MainController.blockLength)] 
-						|| (i / MainController.blockLength) + 1 == (MainController.backgroundWidth / MainController.blockLength)) {
+				}else if(i + 1 == (MainController.backgroundWidth / MainController.blockLength)
+						|| MainController.isUsed[i + 2][j] ) {
 					this.widthLocation += (direction == Direction.left ? (MainController.blockLength) * -1 : 0);
 					return;
 				}
