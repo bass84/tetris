@@ -2,9 +2,9 @@ package main;
 
 import processing.core.PApplet;
 
-public class Background extends PApplet{
+public class Background {
+	
 	private PApplet pApplet;
-	//private int aperture = 5;
 	
 	public Background(PApplet p) {
 		pApplet = p;
@@ -12,12 +12,10 @@ public class Background extends PApplet{
 	
 	public void init(int backgroundWidth, int backgroundHeight) {
 		pApplet.fill(0, 0, 0);
-		pApplet.rect(0, 0, backgroundWidth, backgroundHeight);
+		pApplet.rect(0, 0, MainController.backgroundWidth, MainController.backgroundHeight);
 	}
 	
-	public void changeBackground() {
-		
-	}
+	
 	
 	
 	
