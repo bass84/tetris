@@ -35,7 +35,7 @@ public class MainController extends PApplet{
 	}
 	
 	public void draw() {	// 각 도형의 움직임을 그린다.
-		this.back.init(backgroundWidth, backgroundHeight);
+		this.back.init();
 		this.shapeList.drawShapeList();
 		
 		if(this.shape.isBottom(Direction.nothing)) {
