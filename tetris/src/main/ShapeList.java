@@ -16,7 +16,7 @@ public class ShapeList {
 	}
 	
 	public void addShape(Shape shape) {
-		shapes.add(shape);
+		this.shapes.add(shape);
 	}
 	
 	public void drawShapeList() {

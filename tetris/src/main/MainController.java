@@ -18,29 +18,29 @@ public class MainController extends PApplet{
     }
 
 	public void settings(){
-		size(this.backgroundWidth, this.backgroundHeight);	//전체 크기 설정
+		size(backgroundWidth, backgroundHeight);	//전체 크기 설정
     }
 	
 	public void setup(){
-		back = new Background(this);
-		shapeList = new ShapeList(this);	//도형 리스트 생성
-		shape = new Shape(this);	//도형 생성
+		this.back = new Background(this);
+		this.shapeList = new ShapeList(this);	//도형 리스트 생성
+		this.shape = new Shape(this);	//도형 생성
 		
-		for(int i = 1; i < (this.backgroundWidth / this.blockLength) + 1; i++){	//	가장 아랫줄 true
-			isUsed[i][this.backgroundHeight / this.blockLength] = true;
+		for(int i = 1; i < (backgroundWidth / blockLength) + 1; i++){	//	가장 아랫줄 true
+			isUsed[i][backgroundHeight / blockLength] = true;
 		}
-		for(int i = 0; i < (this.backgroundHeight / this.blockLength) + 1; i++) {	//	가장 왼쪽 줄 true
+		for(int i = 0; i < (backgroundHeight / blockLength) + 1; i++) {	//	가장 왼쪽 줄 true
 			isUsed[0][i] = true;
 		}
 	}
 	
 	public void draw() {	// 각 도형의 움직임을 그린다.
-		back.init(backgroundWidth, backgroundHeight);
-		shapeList.drawShapeList();
+		this.back.init(backgroundWidth, backgroundHeight);
+		this.shapeList.drawShapeList();
 		
-		if(shape.isBottom(Direction.nothing)) {
-			shapeList.addShape(shape);
-			shape = new Shape(this);
+		if(this.shape.isBottom(Direction.nothing)) {
+			this.shapeList.addShape(this.shape);
+			this.shape = new Shape(this);
 		}
 		
 	}
@@ -49,15 +49,15 @@ public class MainController extends PApplet{
 	public void keyPressed() {
 		switch(keyCode) {
 			case(37) :	//left
-				shape.isBottom(Direction.left);
+				this.shape.isBottom(Direction.left);
 				break;
 			case(38) :	//up 
 				break;
 			case(39) :	//right 
-				shape.isBottom(Direction.right);
+				this.shape.isBottom(Direction.right);
 				break;
 			case(40) :	//down
-				shape.isBottom(Direction.down);
+				this.shape.isBottom(Direction.down);
 				break;
 		}
 	}
