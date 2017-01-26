@@ -7,7 +7,7 @@ import processing.core.PApplet;
 
 public class ShapeList {
 
-	private List<Shape> shapes;
+	/*private List<Shape> shapes;
 	private PApplet pApplet;
 	
 	public ShapeList(PApplet p) {
@@ -25,7 +25,7 @@ public class ShapeList {
 			pApplet.fill(shape.getRgb()[0], shape.getRgb()[1], shape.getRgb()[2]);	//도형 색상 지정
 			pApplet.rect(shape.getWidthLocation(), shape.getHeightLocation(), shape.getSizeX(), shape.getSizeY());	// 도형 그리기
 		}
-	}
+	}*/
 	
 	
 }

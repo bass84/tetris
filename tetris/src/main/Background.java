@@ -4,7 +4,7 @@ import processing.core.PApplet;
 
 public class Background {
 	
-	private PApplet pApplet;
+	/*private PApplet pApplet;
 	
 	public Background(PApplet p) {
 		pApplet = p;
@@ -14,7 +14,7 @@ public class Background {
 		pApplet.fill(0, 0, 0);
 		pApplet.rect(0, 0, MainController.backgroundWidth, MainController.backgroundHeight);
 	}
-	
+*/	
 	
 	
 	

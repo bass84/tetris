@@ -2,33 +2,44 @@ package main;
 
 public class ShapeMapping {
 
-	private String shapeParam;
+	public enum Kind {
+		I
+		, J
+		, L
+		, O
+		, S
+		, T
+		, Z
+	}
 	
-	public enum Kind {	//도형 종류 (r, g, b, x위치, y위치, 도형 좌우 길이, 도형 상하 길이)
-		square("255, 0, 0, 200, 0, 100, 100")	//사각형
-		, stick("0, 0, 255, 150, 0, 200, 25");	//1자형
+	public int[][] getShapeInfo(int index) {
+		int[][] shapeInfo;
 		
-		private String param;
-		
-		Kind(String param) {
-			this.param = param;
+		switch(index) {
+			case 0 : 
+				shapeInfo = new int[][]{{4, 0}, {5, 0}, {6, 0}, {7, 0}};
+				return shapeInfo;
+			case 1 :
+				shapeInfo = new int[][]{{5, 0}, {5, 1}, {6, 1}, {7, 1}};
+				return shapeInfo;
+			case 2 :
+				shapeInfo = new int[][]{{4, 1}, {5, 1}, {6, 0}, {6, 1}};
+				return shapeInfo;
+			case 3 :
+				shapeInfo = new int[][]{{5, 0}, {6, 0}, {5, 1}, {6, 1}};
+				return shapeInfo;
+			case 4 :
+				shapeInfo = new int[][]{{6, 0}, {7, 0}, {4, 1}, {5, 1}};
+				return shapeInfo;
+			case 5 :
+				shapeInfo = new int[][]{{5, 1}, {6, 0}, {6, 1}, {7, 1}};
+				return shapeInfo;
+			case 6 :
+				shapeInfo = new int[][]{{4, 0}, {5, 0}, {6, 1}, {7, 1}};
+				return shapeInfo;
 		}
 		
-		String getKind() {
-			return this.param;
-		}
-	}
-	
-	public ShapeMapping(int shapeOrder) {
-		this.setShapeParam(shapeOrder);
-	}
-	
-	public String getShapeParam() {
-		return this.shapeParam;
-	}
-	
-	public void setShapeParam(int shapeOrder) {
-		this.shapeParam = Kind.values()[shapeOrder].getKind();
+		return null;
 	}
 	
 	
