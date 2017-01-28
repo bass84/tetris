@@ -11,6 +11,7 @@ public class MainController extends PApplet{
 	private Shape shape;
 	private int term = 60;
 	private int[][] shapeInfo;
+	private Grid grid;
 	
 	public static void main(String[] args) {
 		PApplet.main("main.MainController");
@@ -23,8 +24,9 @@ public class MainController extends PApplet{
     }
 	
 	public void setup(){
-		shape = new Shape(this);
-		shapeInfo = this.shape.getShapeInfo();
+		this.shape = new Shape(this);
+		this.shapeInfo = this.shape.getShapeInfo();
+		this.grid = new Grid(this);
 		background(48);
 		
 		for(int i = 0; i < usedBlock.length; ++i) usedBlock[i][17] = true;
@@ -33,43 +35,32 @@ public class MainController extends PApplet{
 	}
 	
 	public void draw() {	// 각 도형의 움직임을 그린다.
+		
 		if(this.isBottom()) {
 			this.addUsedBlock();
+			this.grid.addShape(this.shapeInfo);
+			this.shape = new Shape(this);
+			this.shapeInfo = this.shape.getShapeInfo();
 		}else{
 			this.drawShape();
 			if(frameCount % this.term == 0) this.shape.downOneBlock();
 		}
 		
-		
-		
-		
-		// update
-		/*
-		 * shape -> check
-		 *  if then move
-		 *  else 
-		 *  	if bottom? then shape-> grid , new shape
-		 *  
-		 *  
-		 */
-		
-		
-		//
-		/*
-		 * background, grid, shape
-		 */
-		
-		
 	}
 		
 
 	private void addUsedBlock() {
+		for(int i = 0; i < this.shapeInfo.length; i++) {
+			this.usedBlock[this.shapeInfo[i][0] + 1][this.shapeInfo[i][1] - 1] = true;
+		}
 		
 		
 	}
 	
 	private void drawShape() {
 		clear();
+		this.grid.drawShapeList();
+		
 		for(int i = 0; i < this.shapeInfo.length; i++) {
 			fill(0, 0, 255);
 			rect(this.shapeInfo[i][0] * block, this.shapeInfo[i][1] * block, block, block);
@@ -100,18 +91,21 @@ public class MainController extends PApplet{
 	
 	
 	public void keyPressed() {	// 키 이벤트
-		switch(keyCode) {
+		if(!this.isBottom()) {
+			switch(keyCode) {
 			case(37) :	//left
-			if(!this.isLeftEnd() && !this.isBottom()) this.shape.move(Direction.left);
-				break;
+				if(!this.isLeftEnd()) this.shape.move(Direction.left);
+			break;
 			case(38) :	//up 
 				break;
 			case(39) :	//right
-				if(!this.isRightEnd() && !this.isBottom()) this.shape.move(Direction.right);
-				break;
+				if(!this.isRightEnd()) this.shape.move(Direction.right);
+			break;
 			case(40) :	//down
-				if(!this.isBottom()) this.shape.move(Direction.down);
-				break;
+				this.shape.move(Direction.down);
+			break;
+			}
+			
 		}
 	
 	}
