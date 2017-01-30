@@ -12,30 +12,30 @@ public class ShapeMapping {
 		, Z
 	}
 	
-	public int[][] getShapeInfo(int index) {
+	public int[][] getShapeInfo(Kind kind) {
 		int[][] shapeInfo;
 		
-		switch(index) {
-			case 0 : 
-				shapeInfo = new int[][]{{4, 0}, {5, 0}, {6, 0}, {7, 0}};
+		switch(kind) {
+			case I : 
+				shapeInfo = new int[][]{{3, 0}, {4, 0}, {5, 0}, {6, 0}};
 				return shapeInfo;
-			case 1 :
-				shapeInfo = new int[][]{{5, 0}, {5, 1}, {6, 1}, {7, 1}};
+			case J :
+				shapeInfo = new int[][]{{4, 0}, {4, 1}, {5, 1}, {6, 1}};
 				return shapeInfo;
-			case 2 :
-				shapeInfo = new int[][]{{4, 1}, {5, 1}, {6, 0}, {6, 1}};
+			case L :
+				shapeInfo = new int[][]{{3, 1}, {4, 1}, {5, 0}, {5, 1}};
 				return shapeInfo;
-			case 3 :
-				shapeInfo = new int[][]{{5, 0}, {6, 0}, {5, 1}, {6, 1}};
+			case O :
+				shapeInfo = new int[][]{{4, 0}, {5, 0}, {4, 1}, {5, 1}};
 				return shapeInfo;
-			case 4 :
-				shapeInfo = new int[][]{{6, 0}, {7, 0}, {5, 1}, {6, 1}};
+			case S :
+				shapeInfo = new int[][]{{5, 0}, {6, 0}, {4, 1}, {5, 1}};
 				return shapeInfo;
-			case 5 :
-				shapeInfo = new int[][]{{4, 1}, {5, 0}, {5, 1}, {6, 1}};
+			case T :
+				shapeInfo = new int[][]{{3, 1}, {4, 0}, {4, 1}, {5, 1}};
 				return shapeInfo;
-			case 6 :
-				shapeInfo = new int[][]{{5, 0}, {6, 0}, {6, 1}, {7, 1}};
+			case Z :
+				shapeInfo = new int[][]{{4, 0}, {5, 0}, {5, 1}, {6, 1}};
 				return shapeInfo;
 		}
 		

@@ -6,7 +6,7 @@ import processing.core.PApplet;
 
 public class Grid {
 	private PApplet pApplet;
-	private boolean[][] currentUsedBlock = new boolean[12][17];
+	private boolean[][] currentUsedBlock = new boolean[10][15];
 	
 	public Grid(PApplet pApplet) {
 		this.pApplet = pApplet;
