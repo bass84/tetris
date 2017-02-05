@@ -10,6 +10,7 @@ public class Shape {
 	private PApplet pApplet;
 	private int[][] shapeInfo;
 	private Kind shapeKind;
+	private int rotationLimit;
 	private int rotationIndex = 0;
 	
 	public Shape(PApplet pApplet) {
@@ -19,7 +20,8 @@ public class Shape {
 			if(kind.ordinal() == randomNum) this.shapeKind = kind; 
 		}
 		this.shapeInfo = new ShapeMapping().getShapeInfo(this.shapeKind);
-		//this.shapeInfo = new ShapeMapping().getShapeInfo(new Random().nextInt(Kind.values().length));
+		this.rotationLimit = new ShapeMapping().getRotationLimit(this.shapeKind);
+		//this.shapeInfo = new ShapeMapping().getShapeInfo(Kind.J);
 	}
 	
 	public int[][] getShapeInfo() {
@@ -53,37 +55,17 @@ public class Shape {
 		}
 	}
 	
-	public void rotate(int[] rotatedLocation) {
-		switch(this.shapeKind) {
-			case I :
-				for(int i = 0; i < this.shapeInfo.length; i++) {
-					this.shapeInfo[i][0] = rotatedLocation[0];
-					this.shapeInfo[i][1] = rotatedLocation[1];
-					
-					if(this.rotationIndex == 0) rotatedLocation[1]++;
-					else rotatedLocation[0]++;
-				}
-				this.rotationIndex = this.rotationIndex == 0 ? 1 : 0; 
-				break;
-			case J :
-				
-				break;
-			case L :
-				
-				break;
-			case O :
-				
-				break;
-			case S :
-				
-				break;
-			case T :
-				
-				break;
-			case Z :
-				
-				break;
+	public void rotate(int[][] newShapeInfo) {
+		
+		for(int i = 0; i < newShapeInfo.length; i++) {
+			this.shapeInfo[i][0] = newShapeInfo[i][0];
+			this.shapeInfo[i][1] = newShapeInfo[i][1];
 		}
+		for(int i = 0; i < newShapeInfo.length; i++) {
+			System.out.println("new2" + Arrays.toString(newShapeInfo[i]));
+		}
+		
+		this.rotationIndex = this.rotationIndex < this.rotationLimit ? ++this.rotationIndex : 0;
 	}
 	
 }

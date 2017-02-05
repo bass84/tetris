@@ -11,7 +11,33 @@ public class ShapeMapping {
 		, T
 		, Z
 	}
-	
+	public int getRotationLimit(Kind kind) {
+		int rotationLimit = 0;
+		
+		switch(kind) {
+			case I : 
+				rotationLimit = 1;
+				break;
+			case J :
+				rotationLimit = 3;
+				break;
+			case L :
+				rotationLimit = 3;
+				break;
+			case O :
+				break;
+			case S :
+				rotationLimit = 1;
+				break;
+			case T :
+				rotationLimit = 3;
+				break;
+			case Z :
+				rotationLimit = 1;
+				break;
+		}
+		return rotationLimit;
+	}
 	public int[][] getShapeInfo(Kind kind) {
 		int[][] shapeInfo;
 		

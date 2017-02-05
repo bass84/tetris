@@ -3,6 +3,7 @@ package main;
 
 import java.util.Arrays;
 
+import main.ShapeMapping.Kind;
 import processing.core.PApplet;
 
 public class MainController extends PApplet{
@@ -12,6 +13,7 @@ public class MainController extends PApplet{
 	private int term = 60;
 	private int[][] shapeInfo;
 	private Grid grid;
+	private int[][] newShapeInfo;
 	
 	public static void main(String[] args) {
 		PApplet.main("main.MainController");
@@ -27,6 +29,7 @@ public class MainController extends PApplet{
 		this.shape = new Shape(this);
 		this.shapeInfo = this.shape.getShapeInfo();
 		this.grid = new Grid(this);
+		this.newShapeInfo = new int[4][2];
 		background(48);
 		
 		for(int i = 0; i < usedBlock.length; ++i) usedBlock[i][15] = true;
@@ -59,12 +62,11 @@ public class MainController extends PApplet{
 			fill(0, 0, 255);
 			rect(this.shapeInfo[i][0] * block, this.shapeInfo[i][1] * block, block, block);
 		}
-		
 	}
 	
 	private boolean isBottom(){
 		for(int i = 0; i < this.shapeInfo.length; i++) {
-			if(this.shapeInfo[i][0] < 9 && this.usedBlock[this.shapeInfo[i][0] + 1][this.shapeInfo[i][1]]) return true;
+			if(this.shapeInfo[i][0] < 10 && this.usedBlock[this.shapeInfo[i][0] + 1][this.shapeInfo[i][1]]) return true;
 		}
 		return false;
 	}
@@ -82,45 +84,77 @@ public class MainController extends PApplet{
 		}
 		return false;
 	}
-	private boolean isPossibleRotate(int[] rotatedLocation) {
+	private boolean isPossibleRotation() {
+		this.makeRotatedLocation();
+		for(int i = 0; i < this.shapeInfo.length; i++) {
+			System.out.println(Arrays.toString(this.shapeInfo[i]));
+		}
+		for(int i = 0; i < this.newShapeInfo.length; i++) {
+			System.out.println("new" + Arrays.toString(this.newShapeInfo[i]));
+		}
+		
+		int x;
+		int y;
+		
+		for(int i = 0; i < this.newShapeInfo.length; i++) {
+			x = this.newShapeInfo[i][0] + 1;
+			y = this.newShapeInfo[i][1];
+			
+			if(x < 1 || x > 10) return false;
+			if(y < 0 || y > 14) return false;
+			if(this.usedBlock[x][y]) return false;
+		}
+		
+		return true;
+	}
+	
+	private void makeRotatedLocation() {
+		int rotationIndex = this.shape.getRotationIndex();
+		
 		switch(this.shape.getShapeKind()) {
 			case I :
-				if(this.shape.getRotationIndex() == 0) {
-					if(rotatedLocation[1] < 0 || rotatedLocation[1] > 13) return false;
-				}else {
-					if(rotatedLocation[0] > 7) return false;
-				}
-				int newX = rotatedLocation[0];
-				int newY = rotatedLocation[1];
-				
 				for(int i = 0; i < this.shapeInfo.length; i++) {
-					if(this.usedBlock[newX][newY]) {
-						if(this.shape.getRotationIndex() == 0) newY++;
-						else newX++;
-						return false;
+					if(rotationIndex == 0) {
+						this.newShapeInfo[i][0] = this.shapeInfo[1][0];
+						this.newShapeInfo[i][1] = (this.shapeInfo[0][1] - 2) + i;
+					}
+					else {
+						this.newShapeInfo[i][0] = (this.shapeInfo[0][0] - 1) + i;
+						this.newShapeInfo[i][1] = this.shapeInfo[2][1];
 					}
 				}
 				break;
 			case J :
-				
-				break;
-			case L :
-				
+				if(rotationIndex != 3) System.arraycopy(this.shapeInfo, 0, this.newShapeInfo, 2, 2);
+				else System.arraycopy(this.shapeInfo, 0, this.newShapeInfo, 0, 2);
+				if(rotationIndex == 0) {
+					for(int i = 2; i < this.shapeInfo.length; i++) {
+						this.newShapeInfo[i - 2][0] = this.shapeInfo[i][0] - 1;
+						this.newShapeInfo[i - 2][1] = this.shapeInfo[i][1] - 2;
+					}
+				}else if(rotationIndex == 1) {
+					for(int i = 2; i < this.shapeInfo.length; i++) {
+						this.newShapeInfo[i - 2][0] = this.shapeInfo[i][0] + 2;
+						this.newShapeInfo[i - 2][1] = this.shapeInfo[i][1] - 1;
+					}
+				}else if(rotationIndex == 2) {
+					for(int i = 2; i < this.shapeInfo.length; i++) {
+						this.newShapeInfo[i - 2][0] = this.shapeInfo[i][0] + 1;
+						this.newShapeInfo[i - 2][1] = this.shapeInfo[i][1] + 2;
+					}
+				}else {
+					for(int i = 0; i < this.shapeInfo.length - 2; i++) {
+						this.newShapeInfo[i][0] = this.shapeInfo[i][0] - 2;
+						this.newShapeInfo[i][1] = this.shapeInfo[i][1] - 1;
+					}
+				}
 				break;
 			case O :
-				
 				break;
-			case S :
-				
-				break;
-			case T :
-				
-				break;
-			case Z :
-				
-				break;
+			default :
+			
+			break;
 		}
-		return true;
 	}
 	
 	public void keyPressed() {	// 키 이벤트
@@ -131,8 +165,7 @@ public class MainController extends PApplet{
 				if(!this.isLeftEnd()) this.shape.move(Direction.left);
 				break;
 			case(38) :	//up
-				int[] rotatedLocation = this.getRotatedLocation();
-				if(this.isPossibleRotate(rotatedLocation)) this.shape.rotate(rotatedLocation);
+				if(this.isPossibleRotation()) this.shape.rotate(this.newShapeInfo);
 				break;
 			case(39) :	//right
 				if(!this.isRightEnd()) this.shape.move(Direction.right);
@@ -144,40 +177,6 @@ public class MainController extends PApplet{
 	
 	}
 
-	private int[] getRotatedLocation() {
-		int[] rotatedLocation = new int[2];
-		
-		switch(this.shape.getShapeKind()) {
-			case I :
-				if(this.shape.getRotationIndex() == 0) {
-					rotatedLocation[0] = this.shapeInfo[1][0];
-					rotatedLocation[1] = this.shapeInfo[2][1] - 2;
-				}else {
-					rotatedLocation[0] = this.shapeInfo[1][0];
-					rotatedLocation[1] = this.shapeInfo[2][1];
-				}
-				break;
-			case J :
-				
-				break;
-			case L :
-				
-				break;
-			case O :
-				
-				break;
-			case S :
-				
-				break;
-			case T :
-				
-				break;
-			case Z :
-				
-				break;
-		}
-		return rotatedLocation;
-	}
 	
 	
 	
