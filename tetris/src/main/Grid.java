@@ -12,9 +12,9 @@ public class Grid {
 		this.pApplet = pApplet;
 	}
 
-	public void addShape(int[][] shapeInfo) {
+	public void addShape(int[][] shapeInfo, int positionX, int positionY) {
 		for(int i = 0; i < shapeInfo.length; i++) {
-			this.currentUsedBlock[shapeInfo[i][0]][shapeInfo[i][1] - 1] = true;
+			this.currentUsedBlock[shapeInfo[i][0] + positionX][shapeInfo[i][1] - 1 + positionY] = true;
 		}
 	}
 
