@@ -93,17 +93,16 @@ public class MainController extends PApplet{
 		return false;
 	}
 	private boolean isPossibleRotation() {
-		int newShapePositionX = 0;
-		int newShapePositionY = 0;
-		
+		int newX = 0;
+		int newY = 0;
 		for(int i = 0; i < this.shapeInfo.length; i++) {
-			newShapePositionX = this.shapeInfo[i][0] + this.shapePositionX +  this.shapeInfo[i][1] + 1;
-			newShapePositionY = this.shapeInfo[i][1] + this.shapePositionY + this.shapeInfo[i][0] * -1;
+			newX = (this.shapeInfo[i][1] * -1) + this.shapePositionX + 1;
+			newY = this.shapeInfo[i][0] + this.shapePositionY;
 			
-			if(this.usedBlock[newShapePositionX][newShapePositionX]) return false;
+			System.out.println((this.shapeInfo[i][0] + this.shapePositionX + 1) + " => " + newX);
+			System.out.println((this.shapeInfo[i][1] + this.shapePositionY) + " => " + newY);
+			if(this.usedBlock[newX][newY]) return false;
 		}
-		
-		
 		
 		return true;
 	}

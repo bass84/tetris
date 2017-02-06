@@ -9,6 +9,7 @@ import main.ShapeMapping.Kind;
 public class Shape {
 	private PApplet pApplet;
 	private int[][] shapeInfo;
+	private ShapeMapping shapeMapping;
 	private Kind shapeKind;
 	private int positionX;
 	private int positionY;
@@ -19,7 +20,10 @@ public class Shape {
 		for(Kind kind : Kind.values()) {
 			if(kind.ordinal() == randomNum) this.shapeKind = kind; 
 		}
-		this.shapeInfo = new ShapeMapping().getShapeInfo(this.shapeKind);
+		this.shapeMapping = new ShapeMapping();
+		this.shapeInfo = this.shapeMapping.getShapeInfo(this.shapeKind);
+		this.positionX = this.shapeMapping.getMovingValue(this.shapeKind)[0];
+		this.positionY = this.shapeMapping.getMovingValue(this.shapeKind)[1];
 		//this.shapeInfo = new ShapeMapping().getShapeInfo(new Random().nextInt(Kind.values().length));
 	}
 	
