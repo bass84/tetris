@@ -15,10 +15,10 @@ public class Shape {
 	private int positionY;
 	
 	public Shape(PApplet pApplet) {
-		int randomNum = new Random().nextInt(Kind.values().length);
 		this.pApplet = pApplet;
+		int kindIndex = new Random().nextInt(Kind.values().length);
 		for(Kind kind : Kind.values()) {
-			if(kind.ordinal() == randomNum) this.shapeKind = kind; 
+			if(kind.ordinal() == kindIndex) this.shapeKind = kind; 
 		}
 		this.shapeMapping = new ShapeMapping();
 		this.shapeInfo = this.shapeMapping.getShapeInfo(this.shapeKind);
@@ -52,7 +52,13 @@ public class Shape {
 	
 	
 	public void rotate() {
-		
+		for(int i = 0; i < this.shapeInfo.length; i++) {
+			int newX = (this.shapeInfo[i][1] * -1) - 1;
+			int newY = this.shapeInfo[i][0];
+			
+			this.shapeInfo[i][0] = newX;
+			this.shapeInfo[i][1] = newY;
+		}
 	}
 	
 }

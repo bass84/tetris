@@ -57,7 +57,10 @@ public class MainController extends PApplet{
 	}
 	
 	private void addUsedBlock() {
-		for(int i = 0; i < this.shapeInfo.length; i++) this.usedBlock[this.shapeInfo[i][0] + 1 + this.shapePositionX][this.shapeInfo[i][1] - 1  + this.shapePositionY] = true;
+		for(int i = 0; i < this.shapeInfo.length; i++) {
+			this.usedBlock[this.shapeInfo[i][0] + 1 + this.shapePositionX][this.shapeInfo[i][1] - 1  + this.shapePositionY] = true;
+			System.out.println("x = " +(this.shapeInfo[i][0] + 1 + this.shapePositionX) + ", y =" + (this.shapeInfo[i][1] - 1  + this.shapePositionY));
+		}
 	}
 	
 	private void drawShape() {
@@ -87,8 +90,9 @@ public class MainController extends PApplet{
 	
 	private boolean isRightEnd() {
 		for(int i = 0; i < this.shapeInfo.length; i++) {
+			System.out.println("x = " + (this.shapeInfo[i][0] + 2 + this.shapePositionX) + ", y = " + (this.shapeInfo[i][1] + this.shapePositionY));
 			if((this.shapeInfo[i][0] + this.shapePositionX) == 9 
-					|| this.usedBlock[this.shapeInfo[i][0] + 1 + this.shapePositionX][this.shapeInfo[i][1] + this.shapePositionY]) return true;
+					|| this.usedBlock[this.shapeInfo[i][0] + 2 + this.shapePositionX][this.shapeInfo[i][1] + this.shapePositionY]) return true;
 		}
 		return false;
 	}
@@ -96,14 +100,13 @@ public class MainController extends PApplet{
 		int newX = 0;
 		int newY = 0;
 		for(int i = 0; i < this.shapeInfo.length; i++) {
-			newX = (this.shapeInfo[i][1] * -1) + this.shapePositionX + 1;
+			newX = (this.shapeInfo[i][1] * -1) + this.shapePositionX;
 			newY = this.shapeInfo[i][0] + this.shapePositionY;
-			
-			System.out.println((this.shapeInfo[i][0] + this.shapePositionX + 1) + " => " + newX);
-			System.out.println((this.shapeInfo[i][1] + this.shapePositionY) + " => " + newY);
+			if(newX < 1 || newX > 10 || newY < 0 || newY > 14 ) return false;
+			//System.out.println((this.shapeInfo[i][0] + this.shapePositionX + 1) + " => " + newX);
+			//System.out.println((this.shapeInfo[i][1] + this.shapePositionY) + " => " + newY);
 			if(this.usedBlock[newX][newY]) return false;
 		}
-		
 		return true;
 	}
 	
@@ -116,7 +119,8 @@ public class MainController extends PApplet{
 				break;
 			case(38) :	//up
 				if(this.isPossibleRotation()) {
-					//this.shape.rotate();
+					this.shape.rotate();
+					this.shapeInfo = this.shape.getShapeInfo();
 					System.out.println("true");
 				}else{
 					System.out.println("false");
