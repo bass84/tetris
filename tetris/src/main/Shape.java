@@ -55,7 +55,8 @@ public class Shape {
 		for(int i = 0; i < this.shapeInfo.length; i++) {
 			int newX = (this.shapeInfo[i][1] * -1) - 1;
 			int newY = this.shapeInfo[i][0];
-			
+			System.out.println("newX = " + newX);
+			System.out.println("newY = " + newY);
 			this.shapeInfo[i][0] = newX;
 			this.shapeInfo[i][1] = newY;
 		}
