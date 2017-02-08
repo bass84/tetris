@@ -11,6 +11,20 @@ public class ShapeMapping {
 		, T
 		, Z
 	}
+	
+	public int getRotationLimit(Kind kind) {
+		switch(kind) {
+			case I :
+			case S :
+			case Z :
+				return 1;
+			case J :
+			case L :
+			case T :
+				return 3;
+		}
+		return 0;
+	}
 	public int[] getMovingValue(Kind kind) {
 		int movingValue[];
 		
@@ -47,10 +61,10 @@ public class ShapeMapping {
 				shapeInfo = new int[][]{{-2, 0}, {-1, 0}, {0, 0}, {1, 0}};
 				return shapeInfo;
 			case J :
-				shapeInfo = new int[][]{{-1, -1}, {-1, 0}, {0, 0}, {1, 0}};
+				shapeInfo = new int[][]{{-1, -1}, {0, -1}, {1, -1}, {1, 0}};
 				return shapeInfo;
 			case L :
-				shapeInfo = new int[][]{{-2, 0}, {-1, 0}, {0, -1}, {0, 0}};
+				shapeInfo = new int[][]{{-1, 0}, {-1, -1}, {0, -1}, {1, -1}};
 				return shapeInfo;
 			case O :
 				shapeInfo = new int[][]{{4, 0}, {5, 0}, {4, 1}, {5, 1}};
@@ -59,7 +73,7 @@ public class ShapeMapping {
 				shapeInfo = new int[][]{{0, -1}, {1, -1}, {-1, 0}, {0, 0}};
 				return shapeInfo;
 			case T :
-				shapeInfo = new int[][]{{-2, 0}, {-1, -1}, {-1, 0}, {0, 0}};
+				shapeInfo = new int[][]{{-1, 0}, {0, -1}, {0, 0}, {1, 0}};
 				return shapeInfo;
 			case Z :
 				shapeInfo = new int[][]{{-1, -1}, {0, -1}, {0, 0}, {1, 0}};

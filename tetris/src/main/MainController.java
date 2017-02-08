@@ -3,7 +3,6 @@ package main;
 
 import java.util.Arrays;
 
-import main.ShapeMapping.Kind;
 import processing.core.PApplet;
 
 public class MainController extends PApplet{
@@ -27,7 +26,7 @@ public class MainController extends PApplet{
     }
 	
 	public void setup(){
-		this.shape = new Shape(this);
+		this.shape = new Shape();
 		this.shapeInfo = this.shape.getShapeInfo();
 		this.grid = new Grid(this);
 		background(48);
@@ -43,7 +42,7 @@ public class MainController extends PApplet{
 		if(this.isBottom()) {
 			this.addUsedBlock();
 			this.grid.addShape(this.shapeInfo, this.shapePositionX, this.shapePositionY);
-			this.shape = new Shape(this);
+			this.shape = new Shape();
 			this.shapeInfo = this.shape.getShapeInfo();
 		}else{
 			this.drawShape();
@@ -97,14 +96,12 @@ public class MainController extends PApplet{
 	private boolean isPossibleRotation() {
 		int newX = 0;
 		int newY = 0;
+		int[][] nextShapeInfo = this.shape.getNextShapeInfo();
 		
-		for(int i = 0; i < this.shapeInfo.length; i++) {
-			newX = (this.shapeInfo[i][1] * -1) + this.shapePositionX;
-			newY = this.shapeInfo[i][0] + this.shapePositionY;
+		for(int i = 0; i < nextShapeInfo.length; i++) {
+			newX = nextShapeInfo[i][0] + this.shapePositionX;
+			newY = nextShapeInfo[i][1] + this.shapePositionY;
 			if(newX < 1 || newX > 10 || newY < 0 || newY > 14 ) return false;
-			
-			//System.out.println((this.shapeInfo[i][0] + this.shapePositionX + 1) + " => " + newX);
-			//System.out.println((this.shapeInfo[i][1] + this.shapePositionY) + " => " + newY);
 			if(this.usedBlock[newX][newY]) return false;
 		}
 		return true;
@@ -117,17 +114,19 @@ public class MainController extends PApplet{
 			case(37) :	//left
 				if(!this.isLeftEnd()) this.shape.decreasePositionX();
 				break;
+			
 			case(38) :	//up
-				
-				if(this.isPossibleRotation()) {
-					this.shape.rotate();
-					this.shapeInfo = this.shape.getShapeInfo();
-				}else{
-				}
-			break;
+				if(!this.isPossibleRotation()) return;
+			
+				this.shape.rotate();
+				this.shape.increaseRotationIdx();
+				this.shapeInfo = this.shape.getShapeInfo();
+				break;
+			
 			case(39) :	//right
 				if(!this.isRightEnd()) this.shape.increasePositionX();
 				break;
+			
 			case(40) :	//down
 				if(!this.isBottom()) this.shape.increasePositionY();
 				break;
