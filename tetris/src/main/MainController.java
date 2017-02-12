@@ -1,8 +1,5 @@
 package main;
 
-
-import java.util.Arrays;
-
 import processing.core.PApplet;
 
 public class MainController extends PApplet{
@@ -12,11 +9,10 @@ public class MainController extends PApplet{
 	private int term = 60;
 	private int[][] shapeInfo;
 	private Grid grid;
-	private int shapePositionX;
-	private int shapePositionY;
 	
 	public static void main(String[] args) {
 		PApplet.main("main.MainController");
+		
     }
 
 	public void settings(){
@@ -26,7 +22,7 @@ public class MainController extends PApplet{
     }
 	
 	public void setup(){
-		this.shape = new Shape();
+		this.shape = new Shape(this);
 		this.shapeInfo = this.shape.getShapeInfo();
 		this.grid = new Grid(this);
 		background(48);
@@ -37,86 +33,35 @@ public class MainController extends PApplet{
 	}
 	
 	public void draw() {	// 각 도형의 움직임을 그린다.
-		this.setShapePosition();
-		
-		if(this.isBottom()) {
-			this.addUsedBlock();
-			this.grid.addShape(this.shapeInfo, this.shapePositionX, this.shapePositionY);
-			this.shape = new Shape();
+		if(this.shape.isBottom(this.usedBlock)) {
+			this.addUsedBlock(this.shape.getPostiionX(), this.shape.getPostiionY());
+			this.grid.addShape(this.shapeInfo, this.shape.getPostiionX(), this.shape.getPostiionY());
+			this.shape = new Shape(this);
 			this.shapeInfo = this.shape.getShapeInfo();
 		}else{
-			this.drawShape();
+			clear();
+			this.grid.drawShape(this.usedBlock);
+			this.shape.drawShape(usedBlock);
 			if(frameCount % this.term == 0) this.shape.increasePositionY();
 		}
 	}
 	
-	private void setShapePosition() {
-		this.shapePositionX = this.shape.getPostiionX();
-		this.shapePositionY = this.shape.getPostiionY();
-	}
-	
-	private void addUsedBlock() {
+	public void addUsedBlock(int positionX, int positionY) {
 		for(int i = 0; i < this.shapeInfo.length; i++) {
-			this.usedBlock[this.shapeInfo[i][0] + 1 + this.shapePositionX][this.shapeInfo[i][1] - 1  + this.shapePositionY] = true;
+			this.usedBlock[this.shapeInfo[i][0] + 1 + positionX][this.shapeInfo[i][1] - 1  + positionY] = true;
 		}
-	}
-	
-	private void drawShape() {
-		clear();
-		this.grid.drawShapeList();
-		
-		for(int i = 0; i < this.shapeInfo.length; i++) {
-			fill(0, 0, 255);
-			rect((this.shapeInfo[i][0] + this.shapePositionX) * block, (this.shapeInfo[i][1] + this.shapePositionY) * block, block, block);
-		}
-	}
-	
-	private boolean isBottom(){
-		for(int i = 0; i < this.shapeInfo.length; i++) {
-			if((this.shapeInfo[i][0] + shapePositionX) < 10 
-					&& this.usedBlock[this.shapeInfo[i][0] + 1 + this.shapePositionX][this.shapeInfo[i][1] + this.shapePositionY]) return true;
-		}
-		return false;
-	}
-	
-	private boolean isLeftEnd() {
-		for(int i = 0; i < this.shapeInfo.length; i++) {
-			if(this.usedBlock[this.shapeInfo[i][0] + this.shapePositionX][this.shapeInfo[i][1] + this.shapePositionY]) return true;
-		}
-		return false;
-	}
-	
-	private boolean isRightEnd() {
-		for(int i = 0; i < this.shapeInfo.length; i++) {
-			if((this.shapeInfo[i][0] + this.shapePositionX) == 9 
-					|| this.usedBlock[this.shapeInfo[i][0] + 2 + this.shapePositionX][this.shapeInfo[i][1] + this.shapePositionY]) return true;
-		}
-		return false;
-	}
-	private boolean isPossibleRotation() {
-		int newX = 0;
-		int newY = 0;
-		int[][] nextShapeInfo = this.shape.getNextShapeInfo();
-		
-		for(int i = 0; i < nextShapeInfo.length; i++) {
-			newX = nextShapeInfo[i][0] + this.shapePositionX;
-			newY = nextShapeInfo[i][1] + this.shapePositionY;
-			if(newX < 1 || newX > 10 || newY < 0 || newY > 14 ) return false;
-			if(this.usedBlock[newX][newY]) return false;
-		}
-		return true;
 	}
 	
 	public void keyPressed() {	// 키 이벤트
-		if(this.isBottom()) return;
+		if(this.shape.isBottom(this.usedBlock)) return;
 		
 		switch(keyCode) {
 			case(37) :	//left
-				if(!this.isLeftEnd()) this.shape.decreasePositionX();
+				if(!this.shape.isLeftEnd(this.usedBlock)) this.shape.decreasePositionX();
 				break;
 			
 			case(38) :	//up
-				if(!this.isPossibleRotation()) return;
+				if(!this.shape.isPossibleRotation(this.usedBlock)) return;
 			
 				this.shape.rotate();
 				this.shape.increaseRotationIdx();
@@ -124,11 +69,11 @@ public class MainController extends PApplet{
 				break;
 			
 			case(39) :	//right
-				if(!this.isRightEnd()) this.shape.increasePositionX();
+				if(!this.shape.isRightEnd(this.usedBlock)) this.shape.increasePositionX();
 				break;
 			
 			case(40) :	//down
-				if(!this.isBottom()) this.shape.increasePositionY();
+				if(!this.shape.isBottom(this.usedBlock)) this.shape.increasePositionY();
 				break;
 		}
 	

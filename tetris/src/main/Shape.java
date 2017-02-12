@@ -6,7 +6,8 @@ import java.util.Random;
 import processing.core.PApplet;
 import main.ShapeMapping.Kind;
 
-public class Shape {
+public class Shape implements BlockDraw{
+	private PApplet pApplet;
 	private int[][] shapeInfo;
 	private ShapeMapping shapeMapping;
 	private Kind shapeKind;
@@ -15,18 +16,18 @@ public class Shape {
 	private int rotationLimit;
 	private int curRotationIdx;
 	
-	public Shape() {
+	public Shape(PApplet pApplet) {
+		this.pApplet = pApplet;
 		int kindIndex = new Random().nextInt(Kind.values().length);
 		for(Kind kind : Kind.values()) {
 			if(kind.ordinal() == kindIndex) this.shapeKind = kind; 
 		}
 		this.shapeMapping = new ShapeMapping();
-		this.shapeInfo = this.shapeMapping.getShapeInfo(this.shapeKind);
+		this.shapeInfo = this.shapeMapping.getShapeInfo(this.shapeKind)[0];
 		this.positionX = this.shapeMapping.getMovingValue(this.shapeKind)[0];
 		this.positionY = this.shapeMapping.getMovingValue(this.shapeKind)[1];
 		this.rotationLimit = this.shapeMapping.getRotationLimit(this.shapeKind);
 		this.curRotationIdx = 0;
-		//this.shapeInfo = new ShapeMapping().getShapeInfo(new Random().nextInt(Kind.values().length));
 	}
 	
 	public int[][] getShapeInfo() {
@@ -56,70 +57,74 @@ public class Shape {
 	public void increaseRotationIdx() {
 		this.curRotationIdx = this.curRotationIdx == this.rotationLimit ? 0 : ++this.curRotationIdx;
 	}
-	
-	
 	public void rotate() {
 		this.shapeInfo = this.getNextShapeInfo();
 	}
 	
+	public boolean isBottom(boolean[][] usedBlock){
+		for(int i = 0; i < this.shapeInfo.length; i++) {
+			if((this.shapeInfo[i][0] + positionX) < 10 
+					&& usedBlock[this.shapeInfo[i][0] + 1 + this.positionX][this.shapeInfo[i][1] + this.positionY]) return true;
+		}
+		return false;
+	}
+	
+	public boolean isLeftEnd(boolean[][] usedBlock) {
+		for(int i = 0; i < this.shapeInfo.length; i++) {
+			if(usedBlock[this.shapeInfo[i][0] + positionX][this.shapeInfo[i][1] + positionY]) return true;
+		}
+		return false;
+	}
+	
+	public boolean isRightEnd(boolean[][] usedBlock) {
+		for(int i = 0; i < this.shapeInfo.length; i++) {
+			if((this.shapeInfo[i][0] + this.positionX) == 9 
+					|| usedBlock[this.shapeInfo[i][0] + 2 + this.positionX][this.shapeInfo[i][1] + this.positionY]) return true;
+		}
+		return false;
+	}
+	
+	public boolean isPossibleRotation(boolean[][] usedBlock) {
+		int newX = 0;
+		int newY = 0;
+		int[][] nextShapeInfo = this.getNextShapeInfo();
+		
+		for(int i = 0; i < nextShapeInfo.length; i++) {
+			newX = nextShapeInfo[i][0] + this.positionX + 1;
+			newY = nextShapeInfo[i][1] + this.positionY;
+			if(newX < 1 || newX > 10 || newY < 0 || newY > 14 ) return false;
+			if(usedBlock[newX][newY]) return false;
+		}
+		return true;
+	}
+	
 	
 	public int[][] getNextShapeInfo() {
-		int[][] nextShapeInfo = new int[4][2];
-		
 		switch(this.shapeKind) {
 			case I :
 			case S :
 			case Z :
-				nextShapeInfo = this.getShapeInfoTwoRotation();
-				break;
 			case J :
 			case L :
 			case T :
-				nextShapeInfo = this.getShapeInfoFourRotation();
-				break;
+				return this.shapeMapping.getShapeInfo(this.shapeKind)[this.getNextRotationIdx()];
 		}
-		return nextShapeInfo;
+		return null;
 	}
-	
-	
-	public int[][] getShapeInfoTwoRotation() {
-		int nextRotationIdx = this.getNextRotationIdx();
-		int[][] newShapeInfo = new int[4][2];
-		int newX = 0;
-		int newY = 0;
-		
+
+	@Override
+	public void drawShape(boolean[][] usedBlock) {
 		for(int i = 0; i < this.shapeInfo.length; i++) {
-			newX = nextRotationIdx == 1 ? this.shapeInfo[i][1] * -1 : this.shapeInfo[i][1];
-			newY = this.shapeInfo[i][0];
-			newShapeInfo[i][0] = newX;
-			newShapeInfo[i][1] = newY;
+			pApplet.fill(0, 0, 255);
+			pApplet.rect(
+					(this.shapeInfo[i][0] + this.positionX) * MainController.block
+					, (this.shapeInfo[i][1] + this.positionY) * MainController.block
+					, MainController.block
+					, MainController.block);
 		}
-		return newShapeInfo;
+		
+		
+		
 	}	
 	
-	public int[][] getShapeInfoFourRotation() {
-		int nextRotationIdx = this.getNextRotationIdx();
-		int[][] newShapeInfo = new int[4][2];
-		int newX = 0;
-		int newY = 0;
-		
-		for(int i = 0; i < this.shapeInfo.length; i++) {
-			if(nextRotationIdx == 1) {
-				newX = this.shapeInfo[i][1] * -1;
-				newY = this.shapeInfo[i][0] - 1;
-			}else if(nextRotationIdx == 2) {
-				newX = (this.shapeInfo[i][1] * -1) - 1;
-				newY = this.shapeInfo[i][0] - 1;
-			}else if(nextRotationIdx == 3) {
-				newX = (this.shapeInfo[i][1] * -1) - 1;
-				newY = (this.shapeInfo[i][0] * -1) - 1;
-			}else{
-				newX = this.shapeInfo[i][1] + 1;
-				newY = this.shapeInfo[i][0];
-			}
-			newShapeInfo[i][0] = newX;
-			newShapeInfo[i][1] = newY;
-		}
-		return newShapeInfo;
-	}
 }
