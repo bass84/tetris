@@ -35,9 +35,10 @@ public class MainController extends PApplet{
 	public void draw() {	// 각 도형의 움직임을 그린다.
 		if(this.shape.isBottom(this.usedBlock)) {
 			this.addUsedBlock(this.shape.getPostiionX(), this.shape.getPostiionY());
-			this.grid.addShape(this.shapeInfo, this.shape.getPostiionX(), this.shape.getPostiionY());
+			//this.grid.addShape(this.shapeInfo, this.shape.getPostiionX(), this.shape.getPostiionY());
 			this.shape = new Shape(this);
 			this.shapeInfo = this.shape.getShapeInfo();
+			this.usedBlock = this.grid.getNewGridLine(this.usedBlock); 
 		}else{
 			clear();
 			this.grid.drawShape(this.usedBlock);
@@ -46,6 +47,7 @@ public class MainController extends PApplet{
 		}
 	}
 	
+
 	public void addUsedBlock(int positionX, int positionY) {
 		for(int i = 0; i < this.shapeInfo.length; i++) {
 			this.usedBlock[this.shapeInfo[i][0] + 1 + positionX][this.shapeInfo[i][1] - 1  + positionY] = true;
