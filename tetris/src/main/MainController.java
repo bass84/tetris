@@ -63,7 +63,7 @@ public class MainController extends PApplet{
 				break;
 			
 			case(38) :	//up
-				if(!this.shape.isPossibleRotation(this.usedBlock)) return;
+				if(this.shape.getShapeKind().toString().equals("O") || !this.shape.isPossibleRotation(this.usedBlock)) return;
 			
 				this.shape.rotate();
 				this.shape.increaseRotationIdx();

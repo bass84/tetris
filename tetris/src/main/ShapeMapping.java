@@ -22,6 +22,8 @@ public class ShapeMapping {
 			case L :
 			case T :
 				return 3;
+			case O :
+				return 0;
 		}
 		return 0;
 	}
@@ -60,7 +62,7 @@ public class ShapeMapping {
 			case I : 
 				shapeInfo = new int[][][]{
 					{{-2, 0}, {-1, 0}, {0, 0}, {1, 0}} 
-					, {{0, -2}, {0, -1}, {0, 0}, {0, 1}}
+					, {{0, -1}, {0, 0}, {0, 1}, {0, 2}}
 				};
 				return shapeInfo;
 			case J :
