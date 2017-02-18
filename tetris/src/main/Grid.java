@@ -15,6 +15,59 @@ public class Grid implements BlockDraw{
 	public Grid(PApplet pApplet) {
 		this.pApplet = pApplet;
 	}
+	
+	public boolean isBottom(boolean[][] usedBlock, Shape shape){
+		int[][] shapeInfo = shape.getShapeInfo();
+		int positionX = shape.getPostiionX();
+		int positionY = shape.getPostiionY();
+		
+		for(int i = 0; i < shapeInfo.length; i++) {
+			if((shapeInfo[i][0] + positionX) < 10 
+					&& usedBlock[shapeInfo[i][0] + 1 + positionX][shapeInfo[i][1] + positionY]) return true;
+		}
+		return false;
+	}
+	
+	public boolean isLeftEnd(boolean[][] usedBlock, Shape shape) {
+		int[][] shapeInfo = shape.getShapeInfo();
+		int positionX = shape.getPostiionX();
+		int positionY = shape.getPostiionY();
+		
+		for(int i = 0; i < shapeInfo.length; i++) {
+			if(usedBlock[shapeInfo[i][0] + positionX][shapeInfo[i][1] + positionY]) return true;
+		}
+		return false;
+	}
+	
+	public boolean isRightEnd(boolean[][] usedBlock, Shape shape) {
+		int[][] shapeInfo = shape.getShapeInfo();
+		int positionX = shape.getPostiionX();
+		int positionY = shape.getPostiionY();
+		
+		for(int i = 0; i < shapeInfo.length; i++) {
+			if((shapeInfo[i][0] + positionX) == 9 
+					|| usedBlock[shapeInfo[i][0] + 2 + positionX][shapeInfo[i][1] + positionY]) return true;
+		}
+		return false;
+	}
+	
+	public boolean isPossibleRotation(boolean[][] usedBlock, Shape shape) {
+		
+		int positionX = shape.getPostiionX();
+		int positionY = shape.getPostiionY();
+		
+		int newX = 0;
+		int newY = 0;
+		int[][] nextShapeInfo = shape.getNextShapeInfo();
+		
+		for(int i = 0; i < nextShapeInfo.length; i++) {
+			newX = nextShapeInfo[i][0] + positionX + 1;
+			newY = nextShapeInfo[i][1] + positionY;
+			if(newX < 1 || newX > 10 || newY < 0 || newY > 14 ) return false;
+			if(usedBlock[newX][newY]) return false;
+		}
+		return true;
+	}
 
 	
 	@Override
@@ -91,24 +144,5 @@ public class Grid implements BlockDraw{
 		return currentHeightestLine;
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 }

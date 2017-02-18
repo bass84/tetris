@@ -30,73 +30,16 @@ public class Shape implements BlockDraw{
 		this.curRotationIdx = 0;
 	}
 	
-	public int[][] getShapeInfo() {
-		return this.shapeInfo;
-	}
-	public Kind getShapeKind() {
-		return this.shapeKind;
-	}
-	public int getPostiionX() {
-		return this.positionX;
-	}
-	public int getPostiionY() {
-		return this.positionY;
-	}
-	public void increasePositionX() {
-		++this.positionX;
-	}
-	public void decreasePositionX() {
-		--this.positionX;
-	}
-	public void increasePositionY() {
-		++this.positionY;
-	}
-	public int getNextRotationIdx() {
-		return this.curRotationIdx == this.rotationLimit ? 0 : this.curRotationIdx + 1;
-	}
-	public void increaseRotationIdx() {
-		this.curRotationIdx = this.curRotationIdx == this.rotationLimit ? 0 : ++this.curRotationIdx;
-	}
-	public void rotate() {
-		this.shapeInfo = this.getNextShapeInfo();
-	}
-	
-	public boolean isBottom(boolean[][] usedBlock){
-		for(int i = 0; i < this.shapeInfo.length; i++) {
-			if((this.shapeInfo[i][0] + positionX) < 10 
-					&& usedBlock[this.shapeInfo[i][0] + 1 + this.positionX][this.shapeInfo[i][1] + this.positionY]) return true;
-		}
-		return false;
-	}
-	
-	public boolean isLeftEnd(boolean[][] usedBlock) {
-		for(int i = 0; i < this.shapeInfo.length; i++) {
-			if(usedBlock[this.shapeInfo[i][0] + positionX][this.shapeInfo[i][1] + positionY]) return true;
-		}
-		return false;
-	}
-	
-	public boolean isRightEnd(boolean[][] usedBlock) {
-		for(int i = 0; i < this.shapeInfo.length; i++) {
-			if((this.shapeInfo[i][0] + this.positionX) == 9 
-					|| usedBlock[this.shapeInfo[i][0] + 2 + this.positionX][this.shapeInfo[i][1] + this.positionY]) return true;
-		}
-		return false;
-	}
-	
-	public boolean isPossibleRotation(boolean[][] usedBlock) {
-		int newX = 0;
-		int newY = 0;
-		int[][] nextShapeInfo = this.getNextShapeInfo();
-		
-		for(int i = 0; i < nextShapeInfo.length; i++) {
-			newX = nextShapeInfo[i][0] + this.positionX + 1;
-			newY = nextShapeInfo[i][1] + this.positionY;
-			if(newX < 1 || newX > 10 || newY < 0 || newY > 14 ) return false;
-			if(usedBlock[newX][newY]) return false;
-		}
-		return true;
-	}
+	public int[][] getShapeInfo() {return this.shapeInfo;}
+	public Kind getShapeKind() {return this.shapeKind;}
+	public int getPostiionX() {return this.positionX;}
+	public int getPostiionY() {return this.positionY;}
+	public void increasePositionX() {++this.positionX;}
+	public void decreasePositionX() {--this.positionX;}
+	public void increasePositionY() {++this.positionY;}
+	public int getNextRotationIdx() {return this.curRotationIdx == this.rotationLimit ? 0 : this.curRotationIdx + 1;}
+	public void increaseRotationIdx() {this.curRotationIdx = this.curRotationIdx == this.rotationLimit ? 0 : ++this.curRotationIdx;}
+	public void rotate() {this.shapeInfo = this.getNextShapeInfo();}
 	
 	
 	public int[][] getNextShapeInfo() {
