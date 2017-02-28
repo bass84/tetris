@@ -12,6 +12,19 @@ public class ShapeMapping {
 		, Z
 	}
 	
+	public int getShapeColor(Kind kind) {
+		switch(kind) {
+			case I : return 0xff00ffff;
+			case S : return 0xff0000ff;
+			case Z : return 0xffffa500;
+			case J : return 0xffffff00;
+			case L : return 0xff00ff00;
+			case T : return 0xff800080;
+			case O : return 0xffff0000;
+		}
+		return 0;
+	}
+	
 	public int getRotationLimit(Kind kind) {
 		switch(kind) {
 			case I :

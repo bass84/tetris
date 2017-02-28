@@ -15,6 +15,7 @@ public class Shape implements BlockDraw{
 	private int positionY;
 	private int rotationLimit;
 	private int curRotationIdx;
+	private int shapeColor;
 	
 	public Shape(PApplet pApplet) {
 		this.pApplet = pApplet;
@@ -27,6 +28,7 @@ public class Shape implements BlockDraw{
 		this.positionX = this.shapeMapping.getMovingValue(this.shapeKind)[0];
 		this.positionY = this.shapeMapping.getMovingValue(this.shapeKind)[1];
 		this.rotationLimit = this.shapeMapping.getRotationLimit(this.shapeKind);
+		this.shapeColor = this.shapeMapping.getShapeColor(this.shapeKind);
 		this.curRotationIdx = 0;
 	}
 	
@@ -40,6 +42,7 @@ public class Shape implements BlockDraw{
 	public int getNextRotationIdx() {return this.curRotationIdx == this.rotationLimit ? 0 : this.curRotationIdx + 1;}
 	public void increaseRotationIdx() {this.curRotationIdx = this.curRotationIdx == this.rotationLimit ? 0 : ++this.curRotationIdx;}
 	public void rotate() {this.shapeInfo = this.getNextShapeInfo();}
+	public int getShapeColor() {return this.shapeColor;}
 	
 	
 	public int[][] getNextShapeInfo() {
@@ -56,9 +59,9 @@ public class Shape implements BlockDraw{
 	}
 
 	@Override
-	public void drawShape(boolean[][] usedBlock) {
+	public void drawShape(int[][] usedBlock, int shapeColor) {
 		for(int i = 0; i < this.shapeInfo.length; i++) {
-			pApplet.fill(0, 0, 255);
+			pApplet.fill(shapeColor, 255);
 			pApplet.rect(
 					(this.shapeInfo[i][0] + this.positionX) * MainController.block
 					, (this.shapeInfo[i][1] + this.positionY) * MainController.block

@@ -15,7 +15,8 @@ import processing.core.PApplet;
 
 public class MainController extends PApplet{
 	public final static int block = 40;
-	private boolean[][] usedBlock = new boolean[11][16];
+	//private boolean[][] usedBlock = new boolean[11][16];
+	private int[][] usedBlock = new int[11][16];
 	private Shape shape;
 	private int term = 60;
 	private Grid grid;
@@ -34,8 +35,8 @@ public class MainController extends PApplet{
 		this.grid = new Grid(this);
 		background(48);
 		
-		for(int i = 0; i < usedBlock.length; ++i) usedBlock[i][15] = true;
-		for(int i = 0; i < usedBlock[0].length; ++i) usedBlock[0][i] = true;
+		for(int i = 0; i < usedBlock.length; ++i) usedBlock[i][15] = -1;
+		for(int i = 0; i < usedBlock[0].length; ++i) usedBlock[0][i] = -1;
 		
 	}
 	
@@ -44,11 +45,11 @@ public class MainController extends PApplet{
 		if(this.grid.isBottom(this.usedBlock, this.shape)) {
 			this.addUsedBlock(this.shape.getPostiionX(), this.shape.getPostiionY());
 			this.shape = new Shape(this);
-			this.usedBlock = this.grid.getNewGridLine(this.usedBlock); 
+			this.usedBlock = this.grid.getNewGridLine(this.usedBlock, this.shape); 
 		}else{
 			clear();
-			this.grid.drawShape(this.usedBlock);
-			this.shape.drawShape(usedBlock);
+			this.grid.drawShape(this.usedBlock, this.shape.getShapeColor());
+			this.shape.drawShape(usedBlock, this.shape.getShapeColor());
 			if(frameCount % this.term == 0) this.shape.increasePositionY();
 		}
 	}
@@ -56,7 +57,7 @@ public class MainController extends PApplet{
 	public void addUsedBlock(int positionX, int positionY) {
 		int shapeInfo[][] = this.shape.getShapeInfo();
 		for(int i = 0; i < shapeInfo.length; i++) {
-			this.usedBlock[shapeInfo[i][0] + 1 + positionX][shapeInfo[i][1] - 1  + positionY] = true;
+			this.usedBlock[shapeInfo[i][0] + 1 + positionX][shapeInfo[i][1] - 1  + positionY] = -1;
 		}
 	}
 	
