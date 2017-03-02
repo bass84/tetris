@@ -34,8 +34,8 @@ public class Shape implements BlockDraw{
 	
 	public int[][] getShapeInfo() {return this.shapeInfo;}
 	public Kind getShapeKind() {return this.shapeKind;}
-	public int getPostiionX() {return this.positionX;}
-	public int getPostiionY() {return this.positionY;}
+	public int getPostitionX() {return this.positionX;}
+	public int getPostitionY() {return this.positionY;}
 	public void increasePositionX() {++this.positionX;}
 	public void decreasePositionX() {--this.positionX;}
 	public void increasePositionY() {++this.positionY;}
@@ -59,7 +59,8 @@ public class Shape implements BlockDraw{
 	}
 
 	@Override
-	public void drawShape(int[][] usedBlock, int shapeColor) {
+	public void drawShape(int[][] usedBlock, Shape shape) {
+		int shapeColor = shape.getShapeColor();
 		for(int i = 0; i < this.shapeInfo.length; i++) {
 			pApplet.fill(shapeColor, 255);
 			pApplet.rect(

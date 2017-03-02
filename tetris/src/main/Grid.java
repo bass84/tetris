@@ -18,43 +18,48 @@ public class Grid implements BlockDraw{
 	
 	public boolean isBottom(int[][] usedBlock, Shape shape){
 		int[][] shapeInfo = shape.getShapeInfo();
-		int positionX = shape.getPostiionX();
-		int positionY = shape.getPostiionY();
+		int positionX = shape.getPostitionX();
+		int positionY = shape.getPostitionY();
 		
 		for(int i = 0; i < shapeInfo.length; i++) {
 			if((shapeInfo[i][0] + positionX) < 10 
-					&& usedBlock[shapeInfo[i][0] + 1 + positionX][shapeInfo[i][1] + positionY] == -1) return true;
+					&& (usedBlock[shapeInfo[i][0] + 1 + positionX][shapeInfo[i][1] + positionY] == -1
+					|| usedBlock[shapeInfo[i][0] + 1 + positionX][shapeInfo[i][1] + positionY] != 0)) return true;
 		}
+		
+		
 		return false;
 	}
 	
 	public boolean isLeftEnd(int[][] usedBlock, Shape shape) {
 		int[][] shapeInfo = shape.getShapeInfo();
-		int positionX = shape.getPostiionX();
-		int positionY = shape.getPostiionY();
+		int positionX = shape.getPostitionX();
+		int positionY = shape.getPostitionY();
 		
 		for(int i = 0; i < shapeInfo.length; i++) {
-			if(usedBlock[shapeInfo[i][0] + positionX][shapeInfo[i][1] + positionY] == -1) return true;
+			if(usedBlock[shapeInfo[i][0] + positionX][shapeInfo[i][1] + positionY] == -1
+					|| usedBlock[shapeInfo[i][0] + positionX][shapeInfo[i][1] + positionY] != 0) return true;
 		}
 		return false;
 	}
 	
 	public boolean isRightEnd(int[][] usedBlock, Shape shape) {
 		int[][] shapeInfo = shape.getShapeInfo();
-		int positionX = shape.getPostiionX();
-		int positionY = shape.getPostiionY();
+		int positionX = shape.getPostitionX();
+		int positionY = shape.getPostitionY();
 		
 		for(int i = 0; i < shapeInfo.length; i++) {
 			if((shapeInfo[i][0] + positionX) == 9 
-					|| usedBlock[shapeInfo[i][0] + 2 + positionX][shapeInfo[i][1] + positionY] == -1) return true;
+					|| usedBlock[shapeInfo[i][0] + 2 + positionX][shapeInfo[i][1] + positionY] == -1
+					|| usedBlock[shapeInfo[i][0] + 2 + positionX][shapeInfo[i][1] + positionY] != 0) return true;
 		}
 		return false;
 	}
 	
 	public boolean isPossibleRotation(int[][] usedBlock, Shape shape) {
 		
-		int positionX = shape.getPostiionX();
-		int positionY = shape.getPostiionY();
+		int positionX = shape.getPostitionX();
+		int positionY = shape.getPostitionY();
 		
 		int newX = 0;
 		int newY = 0;
@@ -71,11 +76,15 @@ public class Grid implements BlockDraw{
 
 	
 	@Override
-	public void drawShape(int[][] usedBlock, int shapeColor) {
+	public void drawShape(int[][] usedBlock, Shape shape) {
+		int[][] shapeInfo = shape.getShapeInfo();
+		int positionX = shape.getPostitionX();
+		int positionY = shape.getPostitionY();
+		
 		for(int i = 1; i < usedBlock.length; i++) {
 			for(int j = 0; j < usedBlock[i].length - 1; j++) {
-				if(usedBlock[i][j] == -1) {
-					pApplet.fill(0, 0, 255);
+				if(usedBlock[i][j] == -1 || usedBlock[i][j] != 0) {
+					pApplet.fill(usedBlock[i][j], 255);
 					pApplet.rect(
 							(i * MainController.block) - MainController.block 
 							, (j * MainController.block)
@@ -89,15 +98,15 @@ public class Grid implements BlockDraw{
 	public int[][] getNewGridLine(int[][] usedBlock, Shape shape) {
 		List<Integer> removeLines = new ArrayList<Integer>();
 		
-		for(int i = usedBlock[0].length - 2; i >= 0; i--) {
+		for(int i = usedBlock[0].length - 2; i >= 0; i--) {	// 행 안에 비어있는 블록이 있는지 체크
 			boolean blockEmpty = false;
-			for(int j = 1; j < usedBlock.length; j++) {
-				if(usedBlock[j][i] != -1) {
+			for(int j = 1; j < usedBlock.length; j++) {	//만약 한 행 안에 블록이 비어있으면 지워질 행이 없기 때문에 break를 하고 다음 행으로 넘어가서 체크한다.
+				if(usedBlock[j][i] == 0) {
 					blockEmpty = true;
 					break;
 				}
 			}
-			if(!blockEmpty)removeLines.add(i); 
+			if(!blockEmpty)removeLines.add(i); //꽉 차있는 행이 있으면 그 행 번호를 추가한다.
 		}
 		if(removeLines.size() > 0) this.removeLines(usedBlock, removeLines, shape.getShapeColor());
 		
@@ -105,11 +114,11 @@ public class Grid implements BlockDraw{
 	}
 
 
-	private int[][] removeLines(int[][] usedBlock, List<Integer> removeLines, int shapeColor) {
+	private int[][] removeLines(int[][] usedBlock, List<Integer> removeLines, int shapeColor) {	//행을 지우는 메서드
 		Collections.sort(removeLines);
 		
 		for(int i = 0; i < removeLines.size(); i++) {
-			int heighestLine = this.getHeighestLine(usedBlock, removeLines.get(i));
+			int heighestLine = this.getHeighestLine(usedBlock, removeLines.get(i));	//지울 행 중 가장 높은 곳에 있는 행 번호를 찾아오는 메서드
 			usedBlock = this.moveLines(removeLines.get(i) - 1, heighestLine, usedBlock, shapeColor);
 		}
 		return usedBlock;
@@ -121,7 +130,7 @@ public class Grid implements BlockDraw{
 			for(int j = 1; j < usedBlock.length; j++) usedBlock[j][i + 1] = usedBlock[j][i];
 		}
 		
-		for(int i = 0; i < usedBlock.length; i++) usedBlock[i][heighestLine] = shapeColor;
+		for(int i = 0; i < usedBlock.length; i++) usedBlock[i][heighestLine] = 0;
 		
 		return usedBlock;
 	}
@@ -132,7 +141,7 @@ public class Grid implements BlockDraw{
 		for(int i = heightRemovingLine - 1; i >= 0 ; i--) {
 			boolean blockEmpty = false;
 			for(int j = 1; j < usedBlock.length; j++) {
-				if(usedBlock[j][i] == -1) {
+				if(usedBlock[j][i] == -1 || usedBlock[j][i] != 0) {
 					currentHeightestLine = i;
 					blockEmpty = true;
 					break;

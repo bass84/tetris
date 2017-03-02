@@ -43,21 +43,24 @@ public class MainController extends PApplet{
 	public void draw() {	// 각 도형의 움직임을 그린다.
 		
 		if(this.grid.isBottom(this.usedBlock, this.shape)) {
-			this.addUsedBlock(this.shape.getPostiionX(), this.shape.getPostiionY());
+			this.addUsedBlock();
 			this.shape = new Shape(this);
 			this.usedBlock = this.grid.getNewGridLine(this.usedBlock, this.shape); 
 		}else{
 			clear();
-			this.grid.drawShape(this.usedBlock, this.shape.getShapeColor());
-			this.shape.drawShape(usedBlock, this.shape.getShapeColor());
+			this.grid.drawShape(this.usedBlock, this.shape);
+			this.shape.drawShape(usedBlock, this.shape);
 			if(frameCount % this.term == 0) this.shape.increasePositionY();
 		}
 	}
 	
-	public void addUsedBlock(int positionX, int positionY) {
+	public void addUsedBlock() {
+		int positionX = this.shape.getPostitionX();
+		int positionY = this.shape.getPostitionY();
+		int shapeColor = this.shape.getShapeColor();
 		int shapeInfo[][] = this.shape.getShapeInfo();
 		for(int i = 0; i < shapeInfo.length; i++) {
-			this.usedBlock[shapeInfo[i][0] + 1 + positionX][shapeInfo[i][1] - 1  + positionY] = -1;
+			this.usedBlock[shapeInfo[i][0] + 1 + positionX][shapeInfo[i][1] - 1  + positionY] = shapeColor;
 		}
 	}
 	

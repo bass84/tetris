@@ -2,5 +2,5 @@ package main;
 
 public interface BlockDraw {
 
-	public void drawShape(int[][] usedBlock, int shapeColor);
+	public void drawShape(int[][] usedBlock, Shape shape);
 }
