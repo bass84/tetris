@@ -10,9 +10,9 @@ import java.util.Set;
 import processing.core.PApplet;
 
 public class Grid implements BlockDraw{
-	private PApplet pApplet;
+	private MainController pApplet;
 	
-	public Grid(PApplet pApplet) {
+	public Grid(MainController pApplet) {
 		this.pApplet = pApplet;
 	}
 	
@@ -77,10 +77,6 @@ public class Grid implements BlockDraw{
 	
 	@Override
 	public void drawShape(int[][] usedBlock, Shape shape) {
-		int[][] shapeInfo = shape.getShapeInfo();
-		int positionX = shape.getPostitionX();
-		int positionY = shape.getPostitionY();
-		
 		for(int i = 1; i < usedBlock.length; i++) {
 			for(int j = 0; j < usedBlock[i].length - 1; j++) {
 				if(usedBlock[i][j] == -1 || usedBlock[i][j] != 0) {
@@ -108,26 +104,29 @@ public class Grid implements BlockDraw{
 			}
 			if(!blockEmpty)removeLines.add(i); //꽉 차있는 행이 있으면 그 행 번호를 추가한다.
 		}
-		if(removeLines.size() > 0) this.removeLines(usedBlock, removeLines, shape.getShapeColor());
+		if(removeLines.size() > 0) this.removeLines(usedBlock, removeLines);
 		
 		return usedBlock;
 	}
 
 
-	private int[][] removeLines(int[][] usedBlock, List<Integer> removeLines, int shapeColor) {	//행을 지우는 메서드
+	private int[][] removeLines(int[][] usedBlock, List<Integer> removeLines) {	//행을 지우는 메서드
 		Collections.sort(removeLines);
 		
 		for(int i = 0; i < removeLines.size(); i++) {
 			int heighestLine = this.getHeighestLine(usedBlock, removeLines.get(i));	//지울 행 중 가장 높은 곳에 있는 행 번호를 찾아오는 메서드
-			usedBlock = this.moveLines(removeLines.get(i) - 1, heighestLine, usedBlock, shapeColor);
+			usedBlock = this.moveLines(removeLines.get(i) - 1, heighestLine, usedBlock);
+			this.pApplet.increaseTotalScore(2500);
 		}
 		return usedBlock;
 	}
 	
 
-	private int[][] moveLines(int lowestLine, int heighestLine, int[][] usedBlock, int shapeColor) {
+	private int[][] moveLines(int lowestLine, int heighestLine, int[][] usedBlock) {
 		for(int i = lowestLine; i >= heighestLine; i--) {
-			for(int j = 1; j < usedBlock.length; j++) usedBlock[j][i + 1] = usedBlock[j][i];
+			for(int j = 1; j < usedBlock.length; j++) {
+				usedBlock[j][i + 1] = usedBlock[j][i];
+			}
 		}
 		
 		for(int i = 0; i < usedBlock.length; i++) usedBlock[i][heighestLine] = 0;

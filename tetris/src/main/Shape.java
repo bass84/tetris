@@ -7,7 +7,7 @@ import processing.core.PApplet;
 import main.ShapeMapping.Kind;
 
 public class Shape implements BlockDraw{
-	private PApplet pApplet;
+	private MainController pApplet;
 	private int[][] shapeInfo;
 	private ShapeMapping shapeMapping;
 	private Kind shapeKind;
@@ -17,7 +17,7 @@ public class Shape implements BlockDraw{
 	private int curRotationIdx;
 	private int shapeColor;
 	
-	public Shape(PApplet pApplet) {
+	public Shape(MainController pApplet) {
 		this.pApplet = pApplet;
 		int kindIndex = new Random().nextInt(Kind.values().length);
 		for(Kind kind : Kind.values()) {

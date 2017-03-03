@@ -1,36 +1,26 @@
 package main;
 
-import java.io.File;
-import java.io.IOException;
-
-import javax.sound.sampled.AudioFileFormat;
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
-
 import processing.core.PApplet;
+import processing.core.PFont;
 
 public class MainController extends PApplet{
 	public final static int block = 40;
-	//private boolean[][] usedBlock = new boolean[11][16];
 	private int[][] usedBlock = new int[11][16];
 	private Shape shape;
 	private int term = 60;
 	private Grid grid;
-	
+	private int totalScore = 0;
+	private PFont mono;	
 	public static void main(String[] args) {
 		PApplet.main("main.MainController");
-		
-    }
+	}
 
 	public void settings(){
 		size(400, 600);	//전체 크기 설정
     }
 	
 	public void setup(){
+		this.mono = createDefaultFont(15);
 		this.shape = new Shape(this);
 		this.grid = new Grid(this);
 		background(48);
@@ -41,16 +31,34 @@ public class MainController extends PApplet{
 	}
 	
 	public void draw() {	// 각 도형의 움직임을 그린다.
-		
-		if(this.grid.isBottom(this.usedBlock, this.shape)) {
-			this.addUsedBlock();
-			this.shape = new Shape(this);
-			this.usedBlock = this.grid.getNewGridLine(this.usedBlock, this.shape); 
+		try {
+			if(this.grid.isBottom(this.usedBlock, this.shape)) {
+				this.increaseTotalScore(1000);
+				this.addUsedBlock();
+				this.shape = new Shape(this);
+				this.usedBlock = this.grid.getNewGridLine(this.usedBlock, this.shape);
+			}else{
+				clear();
+				this.grid.drawShape(this.usedBlock, this.shape);
+				this.shape.drawShape(usedBlock, this.shape);
+				if(frameCount % this.term == 0) this.shape.increasePositionY();
+			}
+			this.drawScore("SCORE");
+		}catch(Exception e) {
+			background(0);
+			this.drawScore("GAME OVER");
+			return;
+		}
+	}
+	
+	public void drawScore(String text) {
+		textFont(mono);
+		fill(255, 255, 255);
+		if(text.equals("SCORE")) {
+			text("SCORE : " + totalScore, 12, 30);
 		}else{
-			clear();
-			this.grid.drawShape(this.usedBlock, this.shape);
-			this.shape.drawShape(usedBlock, this.shape);
-			if(frameCount % this.term == 0) this.shape.increasePositionY();
+			this.mono = createDefaultFont(50);
+			text("GAME OVER", 55, 280);
 		}
 	}
 	
@@ -62,6 +70,10 @@ public class MainController extends PApplet{
 		for(int i = 0; i < shapeInfo.length; i++) {
 			this.usedBlock[shapeInfo[i][0] + 1 + positionX][shapeInfo[i][1] - 1  + positionY] = shapeColor;
 		}
+	}
+	
+	public void increaseTotalScore(int addScore) {
+		this.totalScore += addScore;
 	}
 	
 	public void keyPressed() {	// 키 이벤트
