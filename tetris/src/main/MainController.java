@@ -1,5 +1,13 @@
 package main;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InvalidClassException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 import main.GameStatus.Status;
 import main.ShapeMapping.Kind;
 import processing.core.PApplet;
@@ -43,6 +51,7 @@ public class MainController extends PApplet{
 			this.reset();
 		}
 	}
+	
 	public void drawByStatus(Status gameStatus) {
 		switch(gameStatus) {
 			case playing: 
@@ -73,6 +82,7 @@ public class MainController extends PApplet{
 				this.mono = createDefaultFont(15);
 				textFont(mono);
 				fill(255, 255, 255);
+				textAlign(LEFT, CENTER);
 				text("SCORE : " + totalScore, 12, 30);
 				break;
 			case beforeStart :
@@ -82,10 +92,15 @@ public class MainController extends PApplet{
 				text("PRESS ENTER START ", 55, 280);
 				break;
 			case pause :
-				this.mono = createDefaultFont(50);
+				this.mono = createDefaultFont(30);
 				textFont(mono);
 				fill(255, 255, 255);
-				text("PAUSE", 120, 280);
+				textAlign(CENTER, CENTER);
+				text("ENTER : START", 200, 250);
+				textAlign(CENTER, CENTER);
+				text("S : SAVE", 200, 290);
+				textAlign(CENTER, CENTER);
+				text("L : LOAD", 200, 330);
 				break;
 			case gameOver :
 				background(0);
@@ -120,6 +135,44 @@ public class MainController extends PApplet{
 		this.totalScore += addScore;
 	}
 	
+	public void saveGame(File selection) {
+		if(selection != null) {
+			String saveFile = selection.getAbsolutePath(); 
+			System.out.println("User selected " + saveFile);
+			try(ObjectOutputStream oos = new ObjectOutputStream(Files.newOutputStream(Paths.get(saveFile)))) {
+				GameStorage gameStorage = new GameStorage(this.usedBlock, this.shape, this.totalScore);
+				oos.writeObject(gameStorage);
+			}catch(IOException e) {
+				System.out.println(String.format("%s - %s", e.getClass().getSimpleName(), e.getMessage()));
+			}
+		}
+	}
+	
+	public void loadGame(File selection) {
+		if(selection != null) {
+			String loadedFile = selection.getAbsolutePath();
+			System.out.println("User selected " + loadedFile);
+			
+			GameStorage gameStorage = null;
+			try(ObjectInputStream ois = new ObjectInputStream(Files.newInputStream(Paths.get(loadedFile)))) {
+				gameStorage = (GameStorage)ois.readObject();
+			}catch(InvalidClassException e) {
+				System.out.println(String.format("%s - %s", e.getClass().getSimpleName(), e.getMessage()));
+			}catch(ClassNotFoundException e) {
+				System.out.println(String.format("%s - %s", e.getClass().getSimpleName(), e.getMessage()));
+			}catch(IOException e) {
+				System.out.println(String.format("%s - %s", e.getClass().getSimpleName(), e.getMessage()));
+			}
+			
+			this.usedBlock = gameStorage.getUsedBlock();
+			this.shape = new Shape(this);
+			this.totalScore = gameStorage.getTotalScore();
+			this.gameStatus.setGameStatus(Status.playing);
+		}
+		
+		
+	}
+	
 	public void keyPressed() {	// 키 이벤트
 		if(this.grid.isBottom(this.usedBlock, this.shape)) return;
 		
@@ -143,7 +196,7 @@ public class MainController extends PApplet{
 					if(!this.grid.isBottom(this.usedBlock, this.shape)) this.shape.increasePositionY();
 					break;
 				
-				case(80) :	// 'p'
+				case(80) :	// 'p' - pause
 					this.gameStatus.setGameStatus(Status.pause);
 					break;
 			}
@@ -152,10 +205,21 @@ public class MainController extends PApplet{
 				case(10) :
 					this.gameStatus.setGameStatus(Status.playing);
 					break;
-				}
+				
+				case(76) :	// 'L' - load
+					selectInput("Select a file to process:", "loadGame");
+					break;
+					
+				case(83) :	// 'S' - save
+					selectInput("Select a file to process:", "saveGame");
+					break;
+			}
+			System.out.println(keyCode);
 		}
 	
 	}
+
+	
 
 	
 	

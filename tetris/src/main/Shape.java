@@ -1,13 +1,17 @@
 package main;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Random;
 
-import processing.core.PApplet;
 import main.ShapeMapping.Kind;
 
-public class Shape implements BlockDraw{
-	private MainController pApplet;
+public class Shape implements BlockDraw, Serializable, Cloneable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7231162489919433626L;
+	private transient MainController pApplet;
 	private int[][] shapeInfo;
 	private ShapeMapping shapeMapping;
 	private Kind shapeKind;
@@ -70,8 +74,31 @@ public class Shape implements BlockDraw{
 					, MainController.block);
 		}
 		
-		
-		
-	}	
+	}
+
+	@Override
+	public String toString() {
+		return "Shape [shapeInfo=" + Arrays.toString(shapeInfo) + ", shapeMapping=" + shapeMapping + ", shapeKind="
+				+ shapeKind + ", positionX=" + positionX + ", positionY=" + positionY + ", rotationLimit="
+				+ rotationLimit + ", curRotationIdx=" + curRotationIdx + ", shapeColor=" + shapeColor + "]";
+	}
+	
+	public Object clone(){ 
+		Object obj = null; 
+		try{ 
+			obj = super.clone(); 
+		}catch(Exception e)
+		{
+			
+		} 
+		return obj; 
+	}
+
+	
+	
+
+	
+	
+	
 	
 }

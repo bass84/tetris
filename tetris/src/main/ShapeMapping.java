@@ -1,8 +1,12 @@
 package main;
 
-public class ShapeMapping {
+import java.io.Serializable;
 
-	public enum Kind {
+public class ShapeMapping implements Serializable{
+
+	private static final long serialVersionUID = 2002873879363676629L;
+	
+	public enum Kind implements Serializable{
 		I
 		, J
 		, L
