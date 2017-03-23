@@ -1,10 +1,10 @@
 package main;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InvalidClassException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -122,8 +122,8 @@ public class MainController extends PApplet{
 	}
 	
 	public void addUsedBlock() {
-		int positionX = this.shape.getPostitionX();
-		int positionY = this.shape.getPostitionY();
+		int positionX = this.shape.getPositionX();
+		int positionY = this.shape.getPositionY();
 		int shapeColor = this.shape.getShapeColor();
 		int shapeInfo[][] = this.shape.getShapeInfo();
 		for(int i = 0; i < shapeInfo.length; i++) {
@@ -139,9 +139,39 @@ public class MainController extends PApplet{
 		if(selection != null) {
 			String saveFile = selection.getAbsolutePath(); 
 			System.out.println("User selected " + saveFile);
-			try(ObjectOutputStream oos = new ObjectOutputStream(Files.newOutputStream(Paths.get(saveFile)))) {
+			/*try(ObjectOutputStream oos = new ObjectOutputStream(Files.newOutputStream(Paths.get(saveFile)))) {
 				GameStorage gameStorage = new GameStorage(this.usedBlock, this.shape, this.totalScore);
 				oos.writeObject(gameStorage);
+			}catch(IOException e) {
+				System.out.println(String.format("%s - %s", e.getClass().getSimpleName(), e.getMessage()));
+			}*/
+			
+			try(DataOutputStream dos = new DataOutputStream(Files.newOutputStream(Paths.get(saveFile)))) {
+				// 1. usedBlock write
+				for(int i = 0; i < this.usedBlock.length; i++) {
+					for(int j = 0; j < this.usedBlock[i].length; j++) {
+						dos.writeInt(this.usedBlock[i][j]);
+					}
+				}
+				// 2. totalScore write
+				dos.writeInt(this.totalScore);
+				
+				// 3. shapeInfo write
+				int[][] saveShapeInfo = this.shape.getShapeInfo();
+				for(int i = 0; i < saveShapeInfo.length; i++) {
+					for(int j = 0; j < saveShapeInfo[i].length; j++) {
+						dos.writeInt(saveShapeInfo[i][j]);
+					}
+				}
+				// 4. positionX write
+				dos.writeInt(this.shape.getPositionX());
+				
+				// 5. positionY write
+				dos.writeInt(this.shape.getPositionY());
+				
+				// 6. shapeColor write
+				dos.writeInt(this.shape.getShapeColor());
+				
 			}catch(IOException e) {
 				System.out.println(String.format("%s - %s", e.getClass().getSimpleName(), e.getMessage()));
 			}
@@ -153,7 +183,7 @@ public class MainController extends PApplet{
 			String loadedFile = selection.getAbsolutePath();
 			System.out.println("User selected " + loadedFile);
 			
-			GameStorage gameStorage = null;
+			/*GameStorage gameStorage = null;
 			try(ObjectInputStream ois = new ObjectInputStream(Files.newInputStream(Paths.get(loadedFile)))) {
 				gameStorage = (GameStorage)ois.readObject();
 			}catch(InvalidClassException e) {
@@ -162,11 +192,49 @@ public class MainController extends PApplet{
 				System.out.println(String.format("%s - %s", e.getClass().getSimpleName(), e.getMessage()));
 			}catch(IOException e) {
 				System.out.println(String.format("%s - %s", e.getClass().getSimpleName(), e.getMessage()));
+			}*/
+			
+			
+			try(DataInputStream dis = new DataInputStream(Files.newInputStream(Paths.get(loadedFile)))) {
+				
+				for(int i = 0; i < this.usedBlock.length; i++) {
+					for(int j = 0; j < this.usedBlock[i].length; j++) {
+						this.usedBlock[i][j] = dis.readInt();
+					}
+				}
+				// 2. totalScore write
+				this.totalScore = dis.readInt();
+				
+				// 3. shapeInfo write
+				int[][] loadShapeInfo = this.shape.getShapeInfo();
+				for(int i = 0; i < loadShapeInfo.length; i++) {
+					for(int j = 0; j < loadShapeInfo[i].length; j++) {
+						loadShapeInfo[i][j] = dis.readInt();
+						
+					}
+				}
+				this.shape.setShapeInfo(loadShapeInfo);
+				// 4. positionX write
+				this.shape.setPositionX(dis.readInt());
+				
+				// 5. positionY write
+				this.shape.setPositionY(dis.readInt());
+				
+				// 6. shapeColor write
+				this.shape.setShapeColor(dis.readInt());
+				
+			}catch(InvalidClassException e) {
+				System.out.println(String.format("%s - %s", e.getClass().getSimpleName(), e.getMessage()));
+			}catch(IOException e) {
+				System.out.println(String.format("%s - %s", e.getClass().getSimpleName(), e.getMessage()));
 			}
 			
-			this.usedBlock = gameStorage.getUsedBlock();
+			
+			/*this.usedBlock = gameStorage.getUsedBlock();
 			this.shape = new Shape(this);
-			this.totalScore = gameStorage.getTotalScore();
+			this.totalScore = gameStorage.getTotalScore();*/
+			
+			//this.shape = new Shape(this);
 			this.gameStatus.setGameStatus(Status.playing);
 		}
 		

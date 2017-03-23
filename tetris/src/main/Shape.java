@@ -38,8 +38,10 @@ public class Shape implements BlockDraw, Serializable, Cloneable{
 	
 	public int[][] getShapeInfo() {return this.shapeInfo;}
 	public Kind getShapeKind() {return this.shapeKind;}
-	public int getPostitionX() {return this.positionX;}
-	public int getPostitionY() {return this.positionY;}
+	public int getPositionX() {return this.positionX;}
+	public int getPositionY() {return this.positionY;}
+	public void setPositionX(int positionX) {this.positionX = positionX;}
+	public void setPositionY(int positionY) {this.positionY = positionY;}
 	public void increasePositionX() {++this.positionX;}
 	public void decreasePositionX() {--this.positionX;}
 	public void increasePositionY() {++this.positionY;}
@@ -47,6 +49,8 @@ public class Shape implements BlockDraw, Serializable, Cloneable{
 	public void increaseRotationIdx() {this.curRotationIdx = this.curRotationIdx == this.rotationLimit ? 0 : ++this.curRotationIdx;}
 	public void rotate() {this.shapeInfo = this.getNextShapeInfo();}
 	public int getShapeColor() {return this.shapeColor;}
+	public void setShapeColor(int shapeColor) {this.shapeColor = shapeColor;}
+	public void setShapeInfo(int[][] shapeInfo) {this.shapeInfo = shapeInfo;}
 	
 	
 	public int[][] getNextShapeInfo() {

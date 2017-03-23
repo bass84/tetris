@@ -18,8 +18,8 @@ public class Grid implements BlockDraw{
 	
 	public boolean isBottom(int[][] usedBlock, Shape shape){
 		int[][] shapeInfo = shape.getShapeInfo();
-		int positionX = shape.getPostitionX();
-		int positionY = shape.getPostitionY();
+		int positionX = shape.getPositionX();
+		int positionY = shape.getPositionY();
 		
 		for(int i = 0; i < shapeInfo.length; i++) {
 			if((shapeInfo[i][0] + positionX) < 10 
@@ -33,8 +33,8 @@ public class Grid implements BlockDraw{
 	
 	public boolean isLeftEnd(int[][] usedBlock, Shape shape) {
 		int[][] shapeInfo = shape.getShapeInfo();
-		int positionX = shape.getPostitionX();
-		int positionY = shape.getPostitionY();
+		int positionX = shape.getPositionX();
+		int positionY = shape.getPositionY();
 		
 		for(int i = 0; i < shapeInfo.length; i++) {
 			if(usedBlock[shapeInfo[i][0] + positionX][shapeInfo[i][1] + positionY] == -1
@@ -45,8 +45,8 @@ public class Grid implements BlockDraw{
 	
 	public boolean isRightEnd(int[][] usedBlock, Shape shape) {
 		int[][] shapeInfo = shape.getShapeInfo();
-		int positionX = shape.getPostitionX();
-		int positionY = shape.getPostitionY();
+		int positionX = shape.getPositionX();
+		int positionY = shape.getPositionY();
 		
 		for(int i = 0; i < shapeInfo.length; i++) {
 			if((shapeInfo[i][0] + positionX) == 9 
@@ -58,8 +58,8 @@ public class Grid implements BlockDraw{
 	
 	public boolean isPossibleRotation(int[][] usedBlock, Shape shape) {
 		
-		int positionX = shape.getPostitionX();
-		int positionY = shape.getPostitionY();
+		int positionX = shape.getPositionX();
+		int positionY = shape.getPositionY();
 		
 		int newX = 0;
 		int newY = 0;
