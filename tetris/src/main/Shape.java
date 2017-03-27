@@ -50,7 +50,13 @@ public class Shape implements BlockDraw, Serializable, Cloneable{
 	public void rotate() {this.shapeInfo = this.getNextShapeInfo();}
 	public int getShapeColor() {return this.shapeColor;}
 	public void setShapeColor(int shapeColor) {this.shapeColor = shapeColor;}
-	public void setShapeInfo(int[][] shapeInfo) {this.shapeInfo = shapeInfo;}
+	public void setShapeInfo(int[][] shapeInfo) {
+		for(int i = 0; i < shapeInfo.length; i++) {
+			for(int j = 0; j < shapeInfo[i].length; j++) {
+				this.shapeInfo[i][j] = shapeInfo[i][j];
+				}
+			}
+		}
 	
 	
 	public int[][] getNextShapeInfo() {

@@ -23,6 +23,7 @@ public class MainController extends PApplet{
 	private int totalScore = 0;
 	private PFont mono;	
 	private GameStatus gameStatus;
+	private GamePage gamePage;
 	
 	public static void main(String[] args) {
 		PApplet.main("main.MainController");
@@ -53,6 +54,9 @@ public class MainController extends PApplet{
 	}
 	
 	public void drawByStatus(Status gameStatus) {
+		this.gamePage = this.newGamePage(gameStatus);
+		this.gamePage.drawPage();
+		
 		switch(gameStatus) {
 			case playing: 
 				if(this.grid.isBottom(this.usedBlock, this.shape)) {
@@ -76,6 +80,16 @@ public class MainController extends PApplet{
 		
 		this.drawText(gameStatus);
 	}
+	private GamePage newGamePage(Status gameStatus) {
+		switch(gameStatus) {
+			case playing :
+				this.gamePage = PlayingPage.getPlayingPage();
+			case pause :
+				this.gamePage = PausePage.getPausePage();
+		}
+		return null;
+	}
+
 	public void drawText(Status gameStatus) {
 		switch(gameStatus) {
 			case playing :
@@ -139,12 +153,6 @@ public class MainController extends PApplet{
 		if(selection != null) {
 			String saveFile = selection.getAbsolutePath(); 
 			System.out.println("User selected " + saveFile);
-			/*try(ObjectOutputStream oos = new ObjectOutputStream(Files.newOutputStream(Paths.get(saveFile)))) {
-				GameStorage gameStorage = new GameStorage(this.usedBlock, this.shape, this.totalScore);
-				oos.writeObject(gameStorage);
-			}catch(IOException e) {
-				System.out.println(String.format("%s - %s", e.getClass().getSimpleName(), e.getMessage()));
-			}*/
 			
 			try(DataOutputStream dos = new DataOutputStream(Files.newOutputStream(Paths.get(saveFile)))) {
 				// 1. usedBlock write
@@ -163,6 +171,8 @@ public class MainController extends PApplet{
 						dos.writeInt(saveShapeInfo[i][j]);
 					}
 				}
+				
+				dos.writeInt(shape.getShapeKind().ordinal());
 				// 4. positionX write
 				dos.writeInt(this.shape.getPositionX());
 				
@@ -182,18 +192,6 @@ public class MainController extends PApplet{
 		if(selection != null) {
 			String loadedFile = selection.getAbsolutePath();
 			System.out.println("User selected " + loadedFile);
-			
-			/*GameStorage gameStorage = null;
-			try(ObjectInputStream ois = new ObjectInputStream(Files.newInputStream(Paths.get(loadedFile)))) {
-				gameStorage = (GameStorage)ois.readObject();
-			}catch(InvalidClassException e) {
-				System.out.println(String.format("%s - %s", e.getClass().getSimpleName(), e.getMessage()));
-			}catch(ClassNotFoundException e) {
-				System.out.println(String.format("%s - %s", e.getClass().getSimpleName(), e.getMessage()));
-			}catch(IOException e) {
-				System.out.println(String.format("%s - %s", e.getClass().getSimpleName(), e.getMessage()));
-			}*/
-			
 			
 			try(DataInputStream dis = new DataInputStream(Files.newInputStream(Paths.get(loadedFile)))) {
 				
@@ -229,12 +227,6 @@ public class MainController extends PApplet{
 				System.out.println(String.format("%s - %s", e.getClass().getSimpleName(), e.getMessage()));
 			}
 			
-			
-			/*this.usedBlock = gameStorage.getUsedBlock();
-			this.shape = new Shape(this);
-			this.totalScore = gameStorage.getTotalScore();*/
-			
-			//this.shape = new Shape(this);
 			this.gameStatus.setGameStatus(Status.playing);
 		}
 		
