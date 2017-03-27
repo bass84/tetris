@@ -5,13 +5,14 @@ import java.util.Arrays;
 import java.util.Random;
 
 import main.ShapeMapping.Kind;
+import processing.core.PApplet;
 
 public class Shape implements BlockDraw, Serializable, Cloneable{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 7231162489919433626L;
-	private transient MainController pApplet;
+	private transient PApplet pApplet;
 	private int[][] shapeInfo;
 	private ShapeMapping shapeMapping;
 	private Kind shapeKind;
@@ -21,7 +22,7 @@ public class Shape implements BlockDraw, Serializable, Cloneable{
 	private int curRotationIdx;
 	private int shapeColor;
 	
-	public Shape(MainController pApplet) {
+	public Shape(PApplet pApplet) {
 		this.pApplet = pApplet;
 		int kindIndex = new Random().nextInt(Kind.values().length);
 		for(Kind kind : Kind.values()) {

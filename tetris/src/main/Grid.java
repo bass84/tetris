@@ -91,7 +91,7 @@ public class Grid implements BlockDraw{
 		}
 	}
 
-	public int[][] getNewGridLine(int[][] usedBlock, Shape shape) {
+	public int[][] getNewGridLine(int[][] usedBlock, Shape shape, PlayingPage playingPage) {
 		List<Integer> removeLines = new ArrayList<Integer>();
 		
 		for(int i = usedBlock[0].length - 2; i >= 0; i--) {	// 행 안에 비어있는 블록이 있는지 체크
@@ -104,19 +104,19 @@ public class Grid implements BlockDraw{
 			}
 			if(!blockEmpty)removeLines.add(i); //꽉 차있는 행이 있으면 그 행 번호를 추가한다.
 		}
-		if(removeLines.size() > 0) this.removeLines(usedBlock, removeLines);
+		if(removeLines.size() > 0) this.removeLines(usedBlock, removeLines, playingPage);
 		
 		return usedBlock;
 	}
 
 
-	private int[][] removeLines(int[][] usedBlock, List<Integer> removeLines) {	//행을 지우는 메서드
+	private int[][] removeLines(int[][] usedBlock, List<Integer> removeLines, PlayingPage PlayingPage) {	//행을 지우는 메서드
 		Collections.sort(removeLines);
 		
 		for(int i = 0; i < removeLines.size(); i++) {
 			int heighestLine = this.getHeighestLine(usedBlock, removeLines.get(i));	//지울 행 중 가장 높은 곳에 있는 행 번호를 찾아오는 메서드
 			usedBlock = this.moveLines(removeLines.get(i) - 1, heighestLine, usedBlock);
-			this.pApplet.increaseTotalScore(2500);
+			PlayingPage.increaseTotalScore(2500);
 		}
 		return usedBlock;
 	}

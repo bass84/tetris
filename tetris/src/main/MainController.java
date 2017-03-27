@@ -16,11 +16,11 @@ import processing.core.PFont;
 public class MainController extends PApplet{
 	
 	public final static int block = 40;
-	private int[][] usedBlock = new int[11][16];
-	private Shape shape;
-	private int term = 60;
-	private Grid grid;
-	private int totalScore = 0;
+	//private int[][] usedBlock = new int[11][16];
+	//private Shape shape;
+	//private int term = 60;
+	//private Grid grid;
+	//private int totalScore = 0;
 	private PFont mono;	
 	private GameStatus gameStatus;
 	private GamePage gamePage;
@@ -34,13 +34,13 @@ public class MainController extends PApplet{
     }
 	
 	public void setup(){
-		this.shape = new Shape(this);
-		this.grid = new Grid(this);
+		/*this.shape = new Shape(this);
+		this.grid = new Grid(this);*/
 		this.gameStatus = new GameStatus();
 		background(48);
 		
-		for(int i = 0; i < usedBlock.length; ++i) usedBlock[i][15] = -1;
-		for(int i = 0; i < usedBlock[0].length; ++i) usedBlock[0][i] = -1;
+		/*for(int i = 0; i < usedBlock.length; ++i) usedBlock[i][15] = -1;
+		for(int i = 0; i < usedBlock[0].length; ++i) usedBlock[0][i] = -1;*/
 		
 	}
 	
@@ -49,17 +49,18 @@ public class MainController extends PApplet{
 			this.drawByStatus(this.gameStatus.getGameStatus());
 		}catch(Exception e) {
 			this.gameStatus.setGameStatus(Status.gameOver);
-			this.reset();
+			this.gamePage = PlayingPage.getPlayingPage(true);
+			//this.reset();
 		}
 	}
 	
 	public void drawByStatus(Status gameStatus) {
-		this.gamePage = this.newGamePage(gameStatus);
+		this.newGamePage(gameStatus);
 		this.gamePage.drawPage();
 		
 		switch(gameStatus) {
 			case playing: 
-				if(this.grid.isBottom(this.usedBlock, this.shape)) {
+				/*if(this.grid.isBottom(this.usedBlock, this.shape)) {
 					this.increaseTotalScore(1000);
 					this.addUsedBlock();
 					this.shape = new Shape(this);
@@ -69,7 +70,7 @@ public class MainController extends PApplet{
 					this.grid.drawShape(this.usedBlock, this.shape);
 					this.shape.drawShape(usedBlock, this.shape);
 					if(frameCount % this.term == 0) this.shape.increasePositionY();
-				}
+				}*/
 				break;
 			
 			case pause : 
@@ -80,24 +81,27 @@ public class MainController extends PApplet{
 		
 		this.drawText(gameStatus);
 	}
-	private GamePage newGamePage(Status gameStatus) {
+	private void newGamePage(Status gameStatus) {
 		switch(gameStatus) {
 			case playing :
-				this.gamePage = PlayingPage.getPlayingPage();
+				this.gamePage = PlayingPage.getPlayingPage(false);
+				break;
 			case pause :
 				this.gamePage = PausePage.getPausePage();
+				break;
 		}
-		return null;
+		this.gamePage.setPApplet(this);
 	}
 
 	public void drawText(Status gameStatus) {
+		
 		switch(gameStatus) {
 			case playing :
 				this.mono = createDefaultFont(15);
-				textFont(mono);
+				/*textFont(mono);
 				fill(255, 255, 255);
 				textAlign(LEFT, CENTER);
-				text("SCORE : " + totalScore, 12, 30);
+				text("SCORE : " + totalScore, 12, 30);*/
 				break;
 			case beforeStart :
 				this.mono = createDefaultFont(30);
@@ -124,8 +128,9 @@ public class MainController extends PApplet{
 				text("GAME OVER ", 55, 280);
 				break;
 		}
+		this.gamePage.drawText(this.mono);
 	}
-	public void reset() {
+	/*public void reset() {
 		this.totalScore = 0;
 		for(int i = 0; i < this.usedBlock.length; ++i) {
 			for(int j = 0; j < this.usedBlock[i].length; ++j) {
@@ -147,7 +152,7 @@ public class MainController extends PApplet{
 	
 	public void increaseTotalScore(int addScore) {
 		this.totalScore += addScore;
-	}
+	}*/
 	
 	public void saveGame(File selection) {
 		if(selection != null) {
