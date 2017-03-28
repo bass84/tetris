@@ -10,9 +10,9 @@ import java.util.Set;
 import processing.core.PApplet;
 
 public class Grid implements BlockDraw{
-	private MainController pApplet;
+	private PApplet pApplet;
 	
-	public Grid(MainController pApplet) {
+	public Grid(PApplet pApplet) {
 		this.pApplet = pApplet;
 	}
 	

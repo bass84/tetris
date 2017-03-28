@@ -22,7 +22,7 @@ public class MainController extends PApplet{
 	//private Grid grid;
 	//private int totalScore = 0;
 	private PFont mono;	
-	private GameStatus gameStatus;
+	public static GameStatus gameStatus;
 	private GamePage gamePage;
 	
 	public static void main(String[] args) {
@@ -36,7 +36,7 @@ public class MainController extends PApplet{
 	public void setup(){
 		/*this.shape = new Shape(this);
 		this.grid = new Grid(this);*/
-		this.gameStatus = new GameStatus();
+		gameStatus = new GameStatus();
 		background(48);
 		
 		/*for(int i = 0; i < usedBlock.length; ++i) usedBlock[i][15] = -1;
@@ -46,90 +46,37 @@ public class MainController extends PApplet{
 	
 	public void draw() {	// 각 도형의 움직임을 그린다.
 		try {
-			this.drawByStatus(this.gameStatus.getGameStatus());
+			this.newGamePage(gameStatus.getGameStatus());
+			this.gamePage.drawPage();
+			this.gamePage.drawText();
 		}catch(Exception e) {
-			this.gameStatus.setGameStatus(Status.gameOver);
+			gameStatus.setGameStatus(Status.gameOver);
 			this.gamePage = PlayingPage.getPlayingPage(true);
 			//this.reset();
 		}
 	}
 	
-	public void drawByStatus(Status gameStatus) {
-		this.newGamePage(gameStatus);
-		this.gamePage.drawPage();
-		
-		switch(gameStatus) {
-			case playing: 
-				/*if(this.grid.isBottom(this.usedBlock, this.shape)) {
-					this.increaseTotalScore(1000);
-					this.addUsedBlock();
-					this.shape = new Shape(this);
-					this.usedBlock = this.grid.getNewGridLine(this.usedBlock, this.shape);
-				}else{
-					clear();
-					this.grid.drawShape(this.usedBlock, this.shape);
-					this.shape.drawShape(usedBlock, this.shape);
-					if(frameCount % this.term == 0) this.shape.increasePositionY();
-				}*/
-				break;
-			
-			case pause : 
-				this.grid.drawShape(this.usedBlock, this.shape);
-				this.shape.drawShape(usedBlock, this.shape);
-				break;
-			}
-		
-		this.drawText(gameStatus);
-	}
 	private void newGamePage(Status gameStatus) {
 		switch(gameStatus) {
 			case playing :
+				System.out.println("Game Start!");
 				this.gamePage = PlayingPage.getPlayingPage(false);
+				System.out.println(this.gamePage);
 				break;
 			case pause :
-				this.gamePage = PausePage.getPausePage();
-				break;
-		}
-		this.gamePage.setPApplet(this);
-	}
-
-	public void drawText(Status gameStatus) {
-		
-		switch(gameStatus) {
-			case playing :
-				this.mono = createDefaultFont(15);
-				/*textFont(mono);
-				fill(255, 255, 255);
-				textAlign(LEFT, CENTER);
-				text("SCORE : " + totalScore, 12, 30);*/
+				this.gamePage = MenuPage.getPausePage();
 				break;
 			case beforeStart :
-				this.mono = createDefaultFont(30);
-				textFont(mono);
-				fill(255, 255, 255);
-				text("PRESS ENTER START ", 55, 280);
-				break;
-			case pause :
-				this.mono = createDefaultFont(30);
-				textFont(mono);
-				fill(255, 255, 255);
-				textAlign(CENTER, CENTER);
-				text("ENTER : START", 200, 250);
-				textAlign(CENTER, CENTER);
-				text("S : SAVE", 200, 290);
-				textAlign(CENTER, CENTER);
-				text("L : LOAD", 200, 330);
+				System.out.println("BeforeStartPage call");
+				this.gamePage = BeforeStartPage.getBeforeStartPage();
 				break;
 			case gameOver :
-				background(0);
-				this.mono = createDefaultFont(50);
-				textFont(mono);
-				fill(255, 255, 255);
-				text("GAME OVER ", 55, 280);
+				this.gamePage = GameOverPage.getGameOverPage();
 				break;
 		}
-		this.gamePage.drawText(this.mono);
+		this.gamePage.setInit(this);
 	}
+	
 	/*public void reset() {
 		this.totalScore = 0;
 		for(int i = 0; i < this.usedBlock.length; ++i) {
@@ -154,7 +101,7 @@ public class MainController extends PApplet{
 		this.totalScore += addScore;
 	}*/
 	
-	public void saveGame(File selection) {
+	/*public void saveGame(File selection) {
 		if(selection != null) {
 			String saveFile = selection.getAbsolutePath(); 
 			System.out.println("User selected " + saveFile);
@@ -191,9 +138,9 @@ public class MainController extends PApplet{
 				System.out.println(String.format("%s - %s", e.getClass().getSimpleName(), e.getMessage()));
 			}
 		}
-	}
+	}*/
 	
-	public void loadGame(File selection) {
+	/*public void loadGame(File selection) {
 		if(selection != null) {
 			String loadedFile = selection.getAbsolutePath();
 			System.out.println("User selected " + loadedFile);
@@ -236,10 +183,13 @@ public class MainController extends PApplet{
 		}
 		
 		
-	}
+	}*/
 	
 	public void keyPressed() {	// 키 이벤트
-		if(this.grid.isBottom(this.usedBlock, this.shape)) return;
+		
+		System.out.println(keyCode);
+		this.gamePage.keyPressed(keyCode);
+		/*if(this.grid.isBottom(this.usedBlock, this.shape)) return;
 		
 		if(this.gameStatus.getGameStatus() == Status.playing) {
 			switch(keyCode) {
@@ -272,15 +222,16 @@ public class MainController extends PApplet{
 					break;
 				
 				case(76) :	// 'L' - load
-					selectInput("Select a file to process:", "loadGame");
+					selectInput("Select a file to process:", "GameUtil.loadGame");
+					this.gameStatus.setGameStatus(Status.playing);
 					break;
 					
 				case(83) :	// 'S' - save
-					selectInput("Select a file to process:", "saveGame");
+					selectInput("Select a file to process:", "GameUtil.saveGame");
 					break;
 			}
 			System.out.println(keyCode);
-		}
+		}*/
 	
 	}
 

@@ -1,37 +1,74 @@
 package main;
 
+import main.ShapeMapping.Kind;
 import processing.core.PApplet;
+import processing.core.PConstants;
 import processing.core.PFont;
 
 public class PlayingPage implements GamePage{
 
-	private static GamePage playingPage = new PlayingPage();
+	private static PlayingPage playingPage = new PlayingPage();
 	private Shape shape;
 	private Grid grid;
 	private int totalScore = 0;
 	private int term = 60;
 	private PFont mono;
 	private PApplet pApplet;
-	private int[][] usedBlock;
+	private int[][] usedBlock = new int[11][16];
 	
 	private PlayingPage() {
-		this.usedBlock = new int[11][16];
 		for(int i = 0; i < usedBlock.length; ++i) usedBlock[i][15] = -1;
 		for(int i = 0; i < usedBlock[0].length; ++i) usedBlock[0][i] = -1;
 	}
 	
-	public static synchronized GamePage getPlayingPage(boolean isRestart) {
-		if(playingPage == null || isRestart) playingPage = new PlayingPage();
+	public static synchronized PlayingPage getPlayingPage(boolean isRestart) {
+		if(playingPage == null || isRestart) {
+			playingPage = new PlayingPage();
+		}
 		return playingPage;
 	}
 	
 	@Override
-	public void setPApplet(PApplet pApplet) {
-		this.pApplet = pApplet;
+	public void setInit(PApplet pApplet) {
+		if(this.pApplet == null) {
+			this.pApplet = pApplet;
+			this.shape = new Shape(this.pApplet);
+			this.grid = new Grid(this.pApplet);
+		}
+		
+	}
+	public Shape getShape() {
+		return this.shape;
+	}
+	public int[][] getUsedBlock() {
+		return this.usedBlock;
+	}
+	public Grid getGrid() {
+		return this.grid;
+	}
+	public int getTotalScore() {
+		return this.totalScore;
+	}
+	public void setShape(Shape shape) {
+		this.shape = shape;
+	}
+	public void setUsedBlock(int[][] usedBlock) {
+		for(int i = 0; i < usedBlock.length; i++) {
+			for(int j = 0; j < usedBlock[i].length; j++) {
+				this.usedBlock[i][j] = usedBlock[i][j];
+			}
+		}
+	}
+	public void setGrid(Grid grid) {
+		this.grid = grid;
+	}
+	public void setTotalScore(int totalScore) {
+		this.totalScore = totalScore;
 	}
 
 	@Override
 	public void drawPage() {
+		System.out.println("gamePage drawPage");
 		try {
 			if(grid.isBottom(usedBlock, shape)) {
 				this.increaseTotalScore(1000);
@@ -44,6 +81,7 @@ public class PlayingPage implements GamePage{
 				this.shape.drawShape(this.usedBlock, shape);
 				if(pApplet.frameCount % this.term == 0) this.shape.increasePositionY();
 			}
+			
 		}catch(Exception e) {
 			this.reset();
 		}
@@ -66,12 +104,12 @@ public class PlayingPage implements GamePage{
 	}
 	
 	@Override
-	public void drawText(PFont mono) {
-		pApplet.textFont(mono);
+	public void drawText() {
+		this.mono = pApplet.createFont("mono", 15);
+		pApplet.textFont(this.mono);
 		pApplet.fill(255, 255, 255);
-		pApplet.textAlign(pApplet.LEFT, pApplet.CENTER);
+		pApplet.textAlign(PConstants.LEFT, PConstants.CENTER);
 		pApplet.text("SCORE : " + totalScore, 12, 30);
-		
 	}
 	
 	public void reset() {
@@ -83,5 +121,35 @@ public class PlayingPage implements GamePage{
 			}
 		}
 	}
+
+	@Override
+	public void keyPressed(int keyCode) {
+		if(this.grid.isBottom(this.usedBlock, this.shape)) return;
+			switch(keyCode) {
+				case(37) :	//left
+					if(!this.grid.isLeftEnd(this.usedBlock, this.shape)) this.shape.decreasePositionX();
+					break;
+				
+				case(38) :	//up
+					if(this.shape.getShapeKind() == Kind.O || !this.grid.isPossibleRotation(this.usedBlock, this.shape)) return;
+					this.shape.rotate();
+					this.shape.increaseRotationIdx();
+					break;
+				
+				case(39) :	//right
+					if(!this.grid.isRightEnd(this.usedBlock, this.shape)) this.shape.increasePositionX();
+					break;
+				
+				case(40) :	//down
+					if(!this.grid.isBottom(this.usedBlock, this.shape)) this.shape.increasePositionY();
+					break;
+				
+				case(80) :	// 'p' - pause
+					//this.gameStatus.setGameStatus(Status.pause);
+					break;
+			}
+		}
+		
+	
 	
 }
