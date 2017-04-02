@@ -1,15 +1,6 @@
 package main;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InvalidClassException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
 import main.GameStatus.Status;
-import main.ShapeMapping.Kind;
 import processing.core.PApplet;
 import processing.core.PFont;
 
@@ -21,7 +12,6 @@ public class MainController extends PApplet{
 	//private int term = 60;
 	//private Grid grid;
 	//private int totalScore = 0;
-	private PFont mono;	
 	public static GameStatus gameStatus;
 	private GamePage gamePage;
 	

@@ -10,11 +10,11 @@ public class PlayingPage implements GamePage{
 	private static PlayingPage playingPage = new PlayingPage();
 	private Shape shape;
 	private Grid grid;
-	private int totalScore = 0;
+	private static int totalScore = 0;
 	private int term = 60;
 	private PFont mono;
 	private PApplet pApplet;
-	private int[][] usedBlock = new int[11][16];
+	private static int[][] usedBlock = new int[11][16];
 	
 	private PlayingPage() {
 		for(int i = 0; i < usedBlock.length; ++i) usedBlock[i][15] = -1;
@@ -22,9 +22,18 @@ public class PlayingPage implements GamePage{
 	}
 	
 	public static synchronized PlayingPage getPlayingPage(boolean isRestart) {
-		if(playingPage == null || isRestart) {
+		if(playingPage == null) {
 			playingPage = new PlayingPage();
+		}else if(isRestart) {
+			totalScore = 0;
+			for(int i = 0; i < usedBlock.length; ++i) {
+				for(int j = 0; j < usedBlock[i].length; ++j) {
+					if(i == 0 || j == 15) usedBlock[i][j] = -1;
+					else usedBlock[i][j] = 0;
+				}
+			}
 		}
+		
 		return playingPage;
 	}
 	
@@ -67,9 +76,9 @@ public class PlayingPage implements GamePage{
 	}
 
 	@Override
-	public void drawPage() {
+	public void drawPage() throws Exception{
 		System.out.println("gamePage drawPage");
-		try {
+		
 			if(grid.isBottom(usedBlock, shape)) {
 				this.increaseTotalScore(1000);
 				this.addUsedBlock(shape, usedBlock);
@@ -82,9 +91,7 @@ public class PlayingPage implements GamePage{
 				if(pApplet.frameCount % this.term == 0) this.shape.increasePositionY();
 			}
 			
-		}catch(Exception e) {
-			this.reset();
-		}
+		
 		
 	}
 	

@@ -6,7 +6,7 @@ public interface GamePage {
 
 	public void setInit(PApplet pApplet);
 	
-	public void drawPage();
+	public void drawPage() throws Exception;
 	
 	public void drawText();
 	
