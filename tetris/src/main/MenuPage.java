@@ -22,7 +22,6 @@ public class MenuPage implements GamePage {
 		
 	}
 
-	@Override
 	public void setInit(PApplet pApplet) {
 		this.pApplet = pApplet;
 		

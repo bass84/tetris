@@ -9,7 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class GameUtil {
-	private static PlayingPage playingPageForUtil = PlayingPage.getPlayingPage(false);
+	/*private static PlayingPage playingPageForUtil = PlayingPage.getPlayingPage(false);
 	private static Shape shape = playingPageForUtil.getShape();
 	private static Grid grid = playingPageForUtil.getGrid();
 	private static int[][] usedBlock = playingPageForUtil.getUsedBlock();
@@ -98,6 +98,6 @@ public class GameUtil {
 		}
 		
 		
-	}
+	}*/
 
 }

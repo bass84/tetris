@@ -13,7 +13,7 @@ public class GameOverPage implements GamePage{
 		if(gameOverPage == null) gameOverPage = new GameOverPage();
 		return gameOverPage;
 	}
-	@Override
+
 	public void setInit(PApplet pApplet) {
 		this.pApplet = pApplet;
 	}

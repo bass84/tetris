@@ -5,9 +5,9 @@ import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PFont;
 
-public class PlayingPage implements GamePage{
+public class PlayingPage extends PlayPage{
 
-	private static PlayingPage playingPage = new PlayingPage();
+	private PlayingPage playingPage = new PlayingPage();
 	private Shape shape;
 	private Grid grid;
 	private static int totalScore = 0;
@@ -16,15 +16,13 @@ public class PlayingPage implements GamePage{
 	private PApplet pApplet;
 	private static int[][] usedBlock = new int[11][16];
 	
-	private PlayingPage() {
+	public PlayingPage() {
 		for(int i = 0; i < usedBlock.length; ++i) usedBlock[i][15] = -1;
 		for(int i = 0; i < usedBlock[0].length; ++i) usedBlock[0][i] = -1;
 	}
 	
-	public static synchronized PlayingPage getPlayingPage(boolean isRestart) {
-		if(playingPage == null) {
-			playingPage = new PlayingPage();
-		}else if(isRestart) {
+	public void getPlayingPage(boolean isRestart) {
+		if(isRestart) {
 			totalScore = 0;
 			for(int i = 0; i < usedBlock.length; ++i) {
 				for(int j = 0; j < usedBlock[i].length; ++j) {
@@ -34,10 +32,8 @@ public class PlayingPage implements GamePage{
 			}
 		}
 		
-		return playingPage;
 	}
 	
-	@Override
 	public void setInit(PApplet pApplet) {
 		if(this.pApplet == null) {
 			this.pApplet = pApplet;

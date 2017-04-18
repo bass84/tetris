@@ -15,7 +15,7 @@ public class BeforeStartPage implements GamePage{
 		return beforeStartPage;
 	}
 	
-	@Override
+	
 	public void setInit(PApplet pApplet) {
 		this.pApplet = pApplet;
 		

@@ -91,7 +91,7 @@ public class Grid implements BlockDraw{
 		}
 	}
 
-	public int[][] getNewGridLine(int[][] usedBlock, Shape shape, PlayingPage playingPage) {
+	public int[][] getNewGridLine(int[][] usedBlock, Shape shape, PlayPage playingPage) {
 		List<Integer> removeLines = new ArrayList<Integer>();
 		
 		for(int i = usedBlock[0].length - 2; i >= 0; i--) {	// 행 안에 비어있는 블록이 있는지 체크
@@ -110,7 +110,7 @@ public class Grid implements BlockDraw{
 	}
 
 
-	private int[][] removeLines(int[][] usedBlock, List<Integer> removeLines, PlayingPage PlayingPage) {	//행을 지우는 메서드
+	private int[][] removeLines(int[][] usedBlock, List<Integer> removeLines, PlayPage PlayingPage) {	//행을 지우는 메서드
 		Collections.sort(removeLines);
 		
 		for(int i = 0; i < removeLines.size(); i++) {

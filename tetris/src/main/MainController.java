@@ -14,6 +14,8 @@ public class MainController extends PApplet{
 	//private int totalScore = 0;
 	public static GameStatus gameStatus;
 	private GamePage gamePage;
+	private PlayPage playPage;
+	private PlayPageListener playPageListener;
 	
 	public static void main(String[] args) {
 		PApplet.main("main.MainController");
@@ -28,6 +30,9 @@ public class MainController extends PApplet{
 		this.grid = new Grid(this);*/
 		gameStatus = new GameStatus();
 		background(48);
+		this.playPageListener = new PlayPageListener(1);
+		this.playPage = this.playPageListener.getPlayPage(this);
+		System.out.println(this.playPage);
 		
 		/*for(int i = 0; i < usedBlock.length; ++i) usedBlock[i][15] = -1;
 		for(int i = 0; i < usedBlock[0].length; ++i) usedBlock[0][i] = -1;*/
@@ -36,17 +41,17 @@ public class MainController extends PApplet{
 	
 	public void draw() {	// 각 도형의 움직임을 그린다.
 		try {
-			this.newGamePage(gameStatus.getGameStatus());
-			this.gamePage.drawPage();
-			this.gamePage.drawText();
+			//this.newGamePage(gameStatus.getGameStatus());
+			this.playPage.drawPage();
+			this.playPage.drawText();
 		}catch(Exception e) {
 			gameStatus.setGameStatus(Status.gameOver);
-			this.gamePage = PlayingPage.getPlayingPage(true);
+			//this.playPage = PlayingPage.getPlayingPage(true);
 			//this.reset();
 		}
 	}
 	
-	private void newGamePage(Status gameStatus) {
+	/*private void newGamePage(Status gameStatus) {
 		switch(gameStatus) {
 			case playing :
 				System.out.println("Game Start!");
@@ -65,7 +70,7 @@ public class MainController extends PApplet{
 				break;
 		}
 		this.gamePage.setInit(this);
-	}
+	}*/
 	
 	/*public void reset() {
 		this.totalScore = 0;
@@ -178,7 +183,7 @@ public class MainController extends PApplet{
 	public void keyPressed() {	// 키 이벤트
 		
 		System.out.println(keyCode);
-		this.gamePage.keyPressed(keyCode);
+		this.playPage.keyPressed(keyCode);
 		/*if(this.grid.isBottom(this.usedBlock, this.shape)) return;
 		
 		if(this.gameStatus.getGameStatus() == Status.playing) {
