@@ -5,7 +5,7 @@ import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PFont;
 
-public class MenuPage implements GamePage {
+public class MenuPage implements IGamePage {
 
 	private static MenuPage menuPage = new MenuPage();
 	private PApplet pApplet;

@@ -1,8 +1,6 @@
 package main;
 
-import processing.core.PApplet;
-
-public interface GamePage {
+public interface IGamePage {
 
 	public void drawPage() throws Exception;
 	

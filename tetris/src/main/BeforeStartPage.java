@@ -4,23 +4,15 @@ import main.GameStatus.Status;
 import processing.core.PApplet;
 import processing.core.PFont;
 
-public class BeforeStartPage implements GamePage{
+public class BeforeStartPage implements IGamePage{
 
-	private static BeforeStartPage beforeStartPage = new BeforeStartPage();
 	private PApplet pApplet;
 	private PFont mono;
 	
-	public static synchronized BeforeStartPage getBeforeStartPage() {
-		if(beforeStartPage == null) beforeStartPage = new BeforeStartPage();
-		return beforeStartPage;
-	}
-	
-	
-	public void setInit(PApplet pApplet) {
+	public BeforeStartPage(PApplet pApplet) {
 		this.pApplet = pApplet;
-		
 	}
-
+	
 	@Override
 	public void drawPage() {
 	}
@@ -30,15 +22,17 @@ public class BeforeStartPage implements GamePage{
 		this.mono = this.pApplet.createFont("mono", 30);
 		this.pApplet.textFont(this.mono);
 		this.pApplet.fill(255, 255, 255);
-		this.pApplet.text("PRESS ENTER START ", 55, 280);
+		this.pApplet.text("PRESS 1 then Single Play", 55, 280);
+		this.pApplet.text("PRESS 2 then Multi Play", 55, 280);
 		
 	}
 
 	@Override
 	public void keyPressed(int keyCode) {
+		System.out.println(keyCode);
 		switch(keyCode) {
 			case(10) :
-				MainController.gameStatus.setGameStatus(Status.playing);
+				Navigator.gameStatus.setGameStatus(Status.playing);
 				break;
 			}
 		

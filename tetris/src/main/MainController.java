@@ -12,10 +12,11 @@ public class MainController extends PApplet{
 	//private int term = 60;
 	//private Grid grid;
 	//private int totalScore = 0;
-	public static GameStatus gameStatus;
-	private GamePage gamePage;
+	//public static GameStatus gameStatus;
+	private IGamePage gamePage;
 	private PlayPage playPage;
 	private PlayPageListener playPageListener;
+	private Navigator navigator;
 	
 	public static void main(String[] args) {
 		PApplet.main("main.MainController");
@@ -28,11 +29,11 @@ public class MainController extends PApplet{
 	public void setup(){
 		/*this.shape = new Shape(this);
 		this.grid = new Grid(this);*/
-		gameStatus = new GameStatus();
+		//gameStatus = new GameStatus();
 		background(48);
 		this.playPageListener = new PlayPageListener(1);
 		this.playPage = this.playPageListener.getPlayPage(this);
-		System.out.println(this.playPage);
+		this.navigator = new Navigator(this);
 		
 		/*for(int i = 0; i < usedBlock.length; ++i) usedBlock[i][15] = -1;
 		for(int i = 0; i < usedBlock[0].length; ++i) usedBlock[0][i] = -1;*/
@@ -45,7 +46,7 @@ public class MainController extends PApplet{
 			this.playPage.drawPage();
 			this.playPage.drawText();
 		}catch(Exception e) {
-			gameStatus.setGameStatus(Status.gameOver);
+			//gameStatus.setGameStatus(Status.gameOver);
 			//this.playPage = PlayingPage.getPlayingPage(true);
 			//this.reset();
 		}

@@ -4,7 +4,7 @@ import main.GameStatus.Status;
 import processing.core.PApplet;
 import processing.core.PFont;
 
-public class GameOverPage implements GamePage{
+public class GameOverPage implements IGamePage{
 	private static GameOverPage gameOverPage = new GameOverPage();
 	private PApplet pApplet;
 	private PFont mono;
