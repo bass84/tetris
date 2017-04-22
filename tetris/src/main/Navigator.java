@@ -1,43 +1,31 @@
 package main;
 
-import processing.core.PApplet;
-
 public class Navigator {
 	private IGamePage gamePage;
-	private PlayPage playPage;
-	private PApplet pApplet;
 	public static GameStatus gameStatus;
 	
-	public Navigator(PApplet pApplet) {
-		this.pApplet = pApplet;
-		this.gamePage = new BeforeStartPage(pApplet);
+	
+	public IGamePage getGamePage() {
+		return this.gamePage;
+	}
+	public void setGamePage(IGamePage gamePage) {
+		this.gamePage = gamePage;
 	}
 	
 	
 	public void draw() {
-		switch(gameStatus.getGameStatus()) {
-			case playing :
-				try {
-					this.playPage.drawPage();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				
-				break;
+		try {
+			this.gamePage.drawPage();
+		
+		} catch (Exception e) {
 			
-			default :
-				try {
-					gamePage.drawPage();
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				break;
-			
+			e.printStackTrace();
 		}
 	}
 	
-	
+	public void keyPressed(int keyCode) {
+		this.gamePage.keyPressed(keyCode);
+	}
 	
 	
 }

@@ -55,7 +55,6 @@ public class SinglePlayPage extends PlayPage{
 
 	@Override
 	public void drawPage() throws Exception{
-		System.out.println("gamePage drawPage");
 		
 			if(grid.isBottom(this.usedBlock, this.shape)) {
 				this.increaseTotalScore(1000);
@@ -69,6 +68,11 @@ public class SinglePlayPage extends PlayPage{
 				if(pApplet.frameCount % this.term == 0) this.shape.increasePositionY();
 			}
 			
+			this.mono = pApplet.createFont("mono", 15);
+			pApplet.textFont(this.mono);
+			pApplet.fill(255, 255, 255);
+			pApplet.textAlign(PConstants.LEFT, PConstants.CENTER);
+			pApplet.text("SCORE : " + totalScore, 12, 30);	
 		
 		
 	}
@@ -88,14 +92,14 @@ public class SinglePlayPage extends PlayPage{
 		}
 	}
 	
-	@Override
+	/*@Override
 	public void drawText() {
 		this.mono = pApplet.createFont("mono", 15);
 		pApplet.textFont(this.mono);
 		pApplet.fill(255, 255, 255);
 		pApplet.textAlign(PConstants.LEFT, PConstants.CENTER);
 		pApplet.text("SCORE : " + totalScore, 12, 30);
-	}
+	}*/
 	
 	public void reset() {
 		this.totalScore = 0;

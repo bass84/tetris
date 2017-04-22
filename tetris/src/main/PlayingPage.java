@@ -7,7 +7,7 @@ import processing.core.PFont;
 
 public class PlayingPage extends PlayPage{
 
-	private PlayingPage playingPage = new PlayingPage();
+	//private PlayingPage playingPage = new PlayingPage();
 	private Shape shape;
 	private Grid grid;
 	private static int totalScore = 0;
@@ -86,8 +86,6 @@ public class PlayingPage extends PlayPage{
 				this.shape.drawShape(this.usedBlock, shape);
 				if(pApplet.frameCount % this.term == 0) this.shape.increasePositionY();
 			}
-			
-		
 		
 	}
 	
@@ -106,14 +104,14 @@ public class PlayingPage extends PlayPage{
 		}
 	}
 	
-	@Override
+	/*@Override
 	public void drawText() {
 		this.mono = pApplet.createFont("mono", 15);
 		pApplet.textFont(this.mono);
 		pApplet.fill(255, 255, 255);
 		pApplet.textAlign(PConstants.LEFT, PConstants.CENTER);
 		pApplet.text("SCORE : " + totalScore, 12, 30);
-	}
+	}*/
 	
 	public void reset() {
 		this.totalScore = 0;

@@ -18,7 +18,7 @@ public class MenuPage implements IGamePage {
 
 	@Override
 	public void drawPage() {
-		this.drawText();
+		//this.drawText();
 		
 	}
 
@@ -27,7 +27,7 @@ public class MenuPage implements IGamePage {
 		
 	}
 
-	@Override
+	/*@Override
 	public void drawText() {
 		this.mono = this.pApplet.createFont("mono", 30);
 		this.pApplet.textFont(this.mono);
@@ -38,18 +38,18 @@ public class MenuPage implements IGamePage {
 		this.pApplet.text("S : SAVE", 200, 290);
 		this.pApplet.textAlign(PConstants.CENTER, PConstants.CENTER);
 		this.pApplet.text("L : LOAD", 200, 330);
-	}
+	}*/
 
 	@Override
 	public void keyPressed(int keyCode) {
 		switch(keyCode) {
 			case(10) :
-				MainController.gameStatus.setGameStatus(Status.playing);
+				Navigator.gameStatus.setGameStatus(Status.playing);
 			break;
 			
 			case(76) :	// 'L' - load
 				this.pApplet.selectInput("Select a file to process:", "GameUtil.loadGame");
-				MainController.gameStatus.setGameStatus(Status.playing);
+			Navigator.gameStatus.setGameStatus(Status.playing);
 			break;
 			
 			case(83) :	// 'S' - save

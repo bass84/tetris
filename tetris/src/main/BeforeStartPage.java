@@ -1,6 +1,5 @@
 package main;
 
-import main.GameStatus.Status;
 import processing.core.PApplet;
 import processing.core.PFont;
 
@@ -15,9 +14,14 @@ public class BeforeStartPage implements IGamePage{
 	
 	@Override
 	public void drawPage() {
+		this.mono = this.pApplet.createFont("mono", 30);
+		this.pApplet.textFont(this.mono);
+		this.pApplet.fill(255, 255, 255);
+		this.pApplet.text("PRESS 1 then Single Play", 55, 280);
+		this.pApplet.text("PRESS 2 then Multi Play", 55, 330);
 	}
 
-	@Override
+	/*@Override
 	public void drawText() {
 		this.mono = this.pApplet.createFont("mono", 30);
 		this.pApplet.textFont(this.mono);
@@ -25,16 +29,14 @@ public class BeforeStartPage implements IGamePage{
 		this.pApplet.text("PRESS 1 then Single Play", 55, 280);
 		this.pApplet.text("PRESS 2 then Multi Play", 55, 280);
 		
-	}
+	}*/
 
-	@Override
+	
 	public void keyPressed(int keyCode) {
 		System.out.println(keyCode);
-		switch(keyCode) {
-			case(10) :
-				Navigator.gameStatus.setGameStatus(Status.playing);
-				break;
-			}
+			
+		//pageListener.initPlayPage(keyCode);
+				
 		
 	}
 
