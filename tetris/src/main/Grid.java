@@ -1,12 +1,10 @@
 package main;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
+import main.pages.PlayPage;
 import processing.core.PApplet;
 
 public class Grid implements BlockDraw{
@@ -82,10 +80,10 @@ public class Grid implements BlockDraw{
 				if(usedBlock[i][j] == -1 || usedBlock[i][j] != 0) {
 					pApplet.fill(usedBlock[i][j], 255);
 					pApplet.rect(
-							(i * MainController.block) - MainController.block 
-							, (j * MainController.block)
-							, MainController.block
-							, MainController.block);
+							(i * PlayPage.block) - PlayPage.block 
+							, (j * PlayPage.block)
+							, PlayPage.block
+							, PlayPage.block);
 				}
 			}
 		}

@@ -1,11 +1,11 @@
-package main;
+package main.pages;
 
 import main.GameStatus.Status;
+import main.Navigator;
 import processing.core.PApplet;
-import processing.core.PConstants;
 import processing.core.PFont;
 
-public class MenuPage implements IGamePage {
+public class MenuPage extends IGamePage {
 
 	private static MenuPage menuPage = new MenuPage();
 	private PApplet pApplet;

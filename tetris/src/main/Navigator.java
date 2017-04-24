@@ -1,9 +1,10 @@
 package main;
 
+import main.pages.IGamePage;
+
 public class Navigator {
 	private IGamePage gamePage;
 	public static GameStatus gameStatus;
-	
 	
 	public IGamePage getGamePage() {
 		return this.gamePage;
@@ -11,7 +12,6 @@ public class Navigator {
 	public void setGamePage(IGamePage gamePage) {
 		this.gamePage = gamePage;
 	}
-	
 	
 	public void draw() {
 		try {
@@ -24,6 +24,7 @@ public class Navigator {
 	}
 	
 	public void keyPressed(int keyCode) {
+		System.out.println("keyCode = " + keyCode);
 		this.gamePage.keyPressed(keyCode);
 	}
 	

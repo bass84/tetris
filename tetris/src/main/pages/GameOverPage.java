@@ -1,10 +1,11 @@
-package main;
+package main.pages;
 
 import main.GameStatus.Status;
+import main.Navigator;
 import processing.core.PApplet;
 import processing.core.PFont;
 
-public class GameOverPage implements IGamePage{
+public class GameOverPage extends IGamePage{
 	private static GameOverPage gameOverPage = new GameOverPage();
 	private PApplet pApplet;
 	private PFont mono;

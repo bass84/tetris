@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Random;
 
 import main.ShapeMapping.Kind;
+import main.pages.PlayPage;
 import processing.core.PApplet;
 
 public class Shape implements BlockDraw, Serializable, Cloneable{
@@ -79,10 +80,10 @@ public class Shape implements BlockDraw, Serializable, Cloneable{
 		for(int i = 0; i < this.shapeInfo.length; i++) {
 			pApplet.fill(shapeColor, 255);
 			pApplet.rect(
-					(this.shapeInfo[i][0] + this.positionX) * MainController.block
-					, (this.shapeInfo[i][1] + this.positionY) * MainController.block
-					, MainController.block
-					, MainController.block);
+					(this.shapeInfo[i][0] + this.positionX) * PlayPage.block
+					, (this.shapeInfo[i][1] + this.positionY) * PlayPage.block
+					, PlayPage.block
+					, PlayPage.block);
 		}
 		
 	}
