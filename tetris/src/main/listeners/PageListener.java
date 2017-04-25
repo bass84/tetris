@@ -8,14 +8,10 @@ import processing.core.PApplet;
 
 public class PageListener implements Listener{
 	private Navigator navigator;
-	private PApplet pApplet;
 	private IGamePage gamePage;
 	
-	public PageListener(PApplet pApplet, Navigator navigator) {
+	public PageListener(Navigator navigator) {
 		this.navigator = navigator;
-		this.pApplet = pApplet;
-		this.gamePage = new BeforeStartPage(this.pApplet);
-		this.navigator.setGamePage(this.gamePage);
 	}
 	
 	private void setGamePage(IGamePage gamePage) {
@@ -24,21 +20,12 @@ public class PageListener implements Listener{
 	}
 	
 	public void keyPressed(int keyCode) {
-		if(gamePage instanceof BeforeStartPage) {
-			switch(keyCode) {
-				case 49 :
-					this.setGamePage(new SinglePlayPage(this.pApplet));
-					break;
-				case 50 :
-					// something do
-					break;
-			}
-		}
-		else {
-			this.navigator.keyPressed(keyCode);
-		}
+		
 	}
 	
+	public void movePlayPage(IGamePage gamePage) {
+		this.gamePage = gamePage;
+	}
 	
 	
 }

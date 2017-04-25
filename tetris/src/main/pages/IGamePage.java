@@ -1,20 +1,32 @@
 package main.pages;
 
-import main.listeners.Listener;
+import main.listeners.PageListener;
+import processing.core.PApplet;
+import processing.core.PFont;
 
 public abstract class IGamePage {
 	
-	private Listener listener;
+	private PageListener listener;
+	private PApplet pApplet;
+	private PFont mono;
 	
-	public IGamePage(Listener listener) {
+	public IGamePage() {
+		
+	}
+ 	
+	public IGamePage(PageListener listener, PApplet pApplet) {
 		this.listener = listener;
+		this.pApplet = pApplet;
 	}
 	
-	public Listener getPageListener() {
+	public PageListener getPageListener() {
 		return this.listener;
 	}
-	public void setPageListener(Listener listener) {
+	public void setPageListener(PageListener listener) {
 		this.listener = listener;
+	}
+	public PApplet getPApplet() {
+		return this.pApplet;
 	}
 	
 	public abstract void drawPage() throws Exception;

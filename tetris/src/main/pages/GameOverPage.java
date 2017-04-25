@@ -2,18 +2,21 @@ package main.pages;
 
 import main.GameStatus.Status;
 import main.Navigator;
+import main.listeners.PageListener;
 import processing.core.PApplet;
 import processing.core.PFont;
 
 public class GameOverPage extends IGamePage{
-	private static GameOverPage gameOverPage = new GameOverPage();
+	
+	public GameOverPage(PageListener listener, PApplet pApplet) {
+		super(listener, pApplet);
+		// TODO Auto-generated constructor stub
+	}
+
 	private PApplet pApplet;
 	private PFont mono;
 	
-	public static synchronized GameOverPage getGameOverPage() {
-		if(gameOverPage == null) gameOverPage = new GameOverPage();
-		return gameOverPage;
-	}
+	
 
 	public void setInit(PApplet pApplet) {
 		this.pApplet = pApplet;

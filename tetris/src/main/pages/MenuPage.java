@@ -2,19 +2,19 @@ package main.pages;
 
 import main.GameStatus.Status;
 import main.Navigator;
+import main.listeners.PageListener;
 import processing.core.PApplet;
 import processing.core.PFont;
 
 public class MenuPage extends IGamePage {
 
-	private static MenuPage menuPage = new MenuPage();
+	public MenuPage(PageListener listener, PApplet pApplet) {
+		super(listener, pApplet);
+	}
+
 	private PApplet pApplet;
 	private PFont mono;
 	
-	public static synchronized MenuPage getPausePage() {
-		if(menuPage == null) menuPage = new MenuPage();
-		return menuPage;
-	}
 
 	@Override
 	public void drawPage() {

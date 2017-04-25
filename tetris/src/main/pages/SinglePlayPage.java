@@ -14,13 +14,17 @@ public class SinglePlayPage extends PlayPage{
 	private int totalScore = 0;
 	private int term = 60;
 	private PFont mono;
-	private PApplet pApplet;
+	//private PApplet pApplet;
 	private int[][] usedBlock = new int[11][16];
 	
-	public SinglePlayPage(PApplet pApplet) {
-		this.pApplet = pApplet;
+	public SinglePlayPage() {
+		/*this.pApplet = pApplet;
 		this.shape = new Shape(this.pApplet);
-		this.grid = new Grid(this.pApplet);
+		this.grid = new Grid(this.pApplet);*/
+		super();
+		this.shape = new Shape(this.getPApplet());
+		this.grid = new Grid(this.getPApplet());
+		
 		
 		for(int i = 0; i < this.usedBlock.length; ++i) this.usedBlock[i][15] = -1;
 		for(int i = 0; i < this.usedBlock[0].length; ++i) this.usedBlock[0][i] = -1;
@@ -57,25 +61,25 @@ public class SinglePlayPage extends PlayPage{
 
 	@Override
 	public void drawPage() throws Exception{
-		
+			PApplet thisPApplet = this.getPApplet();
 			if(grid.isBottom(this.usedBlock, this.shape)) {
 				this.increaseTotalScore(1000);
 				this.addUsedBlock(shape, usedBlock);
-				this.shape = new Shape(this.pApplet);
+				this.shape = new Shape(thisPApplet);
 				this.usedBlock = this.grid.getNewGridLine(this.usedBlock, this.shape, this);
 			}else{
-				pApplet.clear();
+				thisPApplet.clear();
 				this.grid.drawShape(this.usedBlock, this.shape);
 				this.shape.drawShape(this.usedBlock, shape);
-				if(pApplet.frameCount % this.term == 0) this.shape.increasePositionY();
+				if(this.getPApplet().frameCount % this.term == 0) this.shape.increasePositionY();
 			}
 			
 			// draw text
-			this.mono = pApplet.createFont("mono", 15);
-			pApplet.textFont(this.mono);
-			pApplet.fill(255, 255, 255);
-			pApplet.textAlign(PConstants.LEFT, PConstants.CENTER);
-			pApplet.text("SCORE : " + totalScore, 12, 30);	
+			this.mono = thisPApplet.createFont("mono", 15);
+			thisPApplet.textFont(this.mono);
+			thisPApplet.fill(255, 255, 255);
+			thisPApplet.textAlign(PConstants.LEFT, PConstants.CENTER);
+			thisPApplet.text("SCORE : " + totalScore, 12, 30);	
 		
 		
 	}

@@ -1,6 +1,5 @@
 package main;
 
-import main.listeners.PageListener;
 import processing.core.PApplet;
 
 public class MainController extends PApplet{
@@ -19,7 +18,7 @@ public class MainController extends PApplet{
 	
 	public void setup(){
 		background(48);
-		this.navigator = new Navigator();
+		this.navigator = new Navigator(this);
 		//this.pageListener = new PageListener(this, this.navigator);
 	}
 	
