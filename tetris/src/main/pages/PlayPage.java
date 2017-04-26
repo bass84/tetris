@@ -1,10 +1,7 @@
 package main.pages;
 
-public abstract class PlayPage extends IGamePage{
 
-	public PlayPage() {
-		super();
-	}
+public abstract class PlayPage implements IGamePage{
 
 	public final static int block = 40;
 	

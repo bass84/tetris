@@ -1,12 +1,13 @@
 package main;
 
+import main.listeners.PageListener;
+import main.pages.ParentPage;
 import processing.core.PApplet;
 
 public class MainController extends PApplet{
 	
-	//public final static int block = 40;
-	//private PageListener pageListener;
 	private Navigator navigator;
+	//private ParentPage parentPage;
 	
 	public static void main(String[] args) {
 		PApplet.main("main.MainController");
@@ -18,8 +19,9 @@ public class MainController extends PApplet{
 	
 	public void setup(){
 		background(48);
-		this.navigator = new Navigator(this);
-		//this.pageListener = new PageListener(this, this.navigator);
+		this.navigator = new Navigator();
+		
+		ParentPage.setParentPage(new ParentPage(new PageListener(this.navigator), this));
 	}
 	
 	public void draw() {	// 각 도형의 움직임을 그린다.

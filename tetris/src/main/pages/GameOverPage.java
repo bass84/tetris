@@ -6,13 +6,8 @@ import main.listeners.PageListener;
 import processing.core.PApplet;
 import processing.core.PFont;
 
-public class GameOverPage extends IGamePage{
+public class GameOverPage implements IGamePage{
 	
-	public GameOverPage(PageListener listener, PApplet pApplet) {
-		super(listener, pApplet);
-		// TODO Auto-generated constructor stub
-	}
-
 	private PApplet pApplet;
 	private PFont mono;
 	

@@ -2,15 +2,15 @@ package main.pages;
 
 import main.GameStatus.Status;
 import main.Navigator;
-import main.listeners.PageListener;
 import processing.core.PApplet;
+import processing.core.PConstants;
 import processing.core.PFont;
 
-public class MenuPage extends IGamePage {
+public class MenuPage implements IGamePage {
 
-	public MenuPage(PageListener listener, PApplet pApplet) {
+	/*public MenuPage(PageListener listener, PApplet pApplet) {
 		super(listener, pApplet);
-	}
+	}*/
 
 	private PApplet pApplet;
 	private PFont mono;
@@ -19,6 +19,15 @@ public class MenuPage extends IGamePage {
 	@Override
 	public void drawPage() {
 		//this.drawText();
+		this.mono = this.pApplet.createFont("mono", 30);
+		this.pApplet.textFont(this.mono);
+		this.pApplet.fill(255, 255, 255);
+		this.pApplet.textAlign(PConstants.CENTER, PConstants.CENTER);
+		this.pApplet.text("ENTER : START", 200, 250);
+		this.pApplet.textAlign(PConstants.CENTER, PConstants.CENTER);
+		this.pApplet.text("S : SAVE", 200, 290);
+		this.pApplet.textAlign(PConstants.CENTER, PConstants.CENTER);
+		this.pApplet.text("L : LOAD", 200, 330);
 		
 	}
 

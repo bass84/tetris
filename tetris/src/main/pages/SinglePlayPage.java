@@ -13,17 +13,16 @@ public class SinglePlayPage extends PlayPage{
 	private Grid grid;
 	private int totalScore = 0;
 	private int term = 60;
-	private PFont mono;
-	//private PApplet pApplet;
 	private int[][] usedBlock = new int[11][16];
+	private PFont mono;
+	private PApplet pApplet;
 	
 	public SinglePlayPage() {
-		/*this.pApplet = pApplet;
+		this.mono = ParentPage.getParentPage().getMono();
+		this.pApplet = ParentPage.getParentPage().getPApplet();
+		
 		this.shape = new Shape(this.pApplet);
-		this.grid = new Grid(this.pApplet);*/
-		super();
-		this.shape = new Shape(this.getPApplet());
-		this.grid = new Grid(this.getPApplet());
+		this.grid = new Grid(this.pApplet);
 		
 		
 		for(int i = 0; i < this.usedBlock.length; ++i) this.usedBlock[i][15] = -1;
@@ -61,25 +60,25 @@ public class SinglePlayPage extends PlayPage{
 
 	@Override
 	public void drawPage() throws Exception{
-			PApplet thisPApplet = this.getPApplet();
+			
 			if(grid.isBottom(this.usedBlock, this.shape)) {
 				this.increaseTotalScore(1000);
 				this.addUsedBlock(shape, usedBlock);
-				this.shape = new Shape(thisPApplet);
+				this.shape = new Shape(this.pApplet);
 				this.usedBlock = this.grid.getNewGridLine(this.usedBlock, this.shape, this);
 			}else{
-				thisPApplet.clear();
+				this.pApplet.clear();
 				this.grid.drawShape(this.usedBlock, this.shape);
 				this.shape.drawShape(this.usedBlock, shape);
-				if(this.getPApplet().frameCount % this.term == 0) this.shape.increasePositionY();
+				if(this.pApplet.frameCount % this.term == 0) this.shape.increasePositionY();
 			}
 			
 			// draw text
-			this.mono = thisPApplet.createFont("mono", 15);
-			thisPApplet.textFont(this.mono);
-			thisPApplet.fill(255, 255, 255);
-			thisPApplet.textAlign(PConstants.LEFT, PConstants.CENTER);
-			thisPApplet.text("SCORE : " + totalScore, 12, 30);	
+			this.mono = this.pApplet.createFont("mono", 15);
+			this.pApplet.textFont(this.mono);
+			this.pApplet.fill(255, 255, 255);
+			this.pApplet.textAlign(PConstants.LEFT, PConstants.CENTER);
+			this.pApplet.text("SCORE : " + totalScore, 12, 30);	
 		
 		
 	}

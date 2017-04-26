@@ -3,29 +3,25 @@ package main.listeners;
 import main.Navigator;
 import main.pages.BeforeStartPage;
 import main.pages.IGamePage;
-import main.pages.SinglePlayPage;
-import processing.core.PApplet;
 
 public class PageListener implements Listener{
 	private Navigator navigator;
-	private IGamePage gamePage;
 	
 	public PageListener(Navigator navigator) {
 		this.navigator = navigator;
+		this.navigator.setGamePage(new BeforeStartPage());
 	}
 	
-	private void setGamePage(IGamePage gamePage) {
-		this.gamePage = gamePage;
-		this.navigator.setGamePage(gamePage);
-	}
-	
-	public void keyPressed(int keyCode) {
-		
+	public PageListener getPageListener() {
+		return this;
 	}
 	
 	public void movePlayPage(IGamePage gamePage) {
-		this.gamePage = gamePage;
+		navigator.setGamePage(gamePage);
 	}
 	
-	
+	@Override
+	public void keyPressed(int keyCode) {
+		
+	}
 }
