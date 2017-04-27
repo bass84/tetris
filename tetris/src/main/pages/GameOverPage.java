@@ -1,24 +1,14 @@
 package main.pages;
 
-import main.GameStatus.Status;
-import main.Navigator;
-import main.listeners.PageListener;
+import pages.IGamePage;
 import processing.core.PApplet;
 import processing.core.PFont;
 
-public class GameOverPage implements IGamePage{
-	
-	private PApplet pApplet;
-	private PFont mono;
+public class GameOverPage extends IGamePage{
 	
 	
-
-	public void setInit(PApplet pApplet) {
-		this.pApplet = pApplet;
-	}
-
 	@Override
-	public void drawPage() {
+	public void drawPage(PApplet pApplet, PFont mono) {
 	}
 
 	/*@Override
@@ -33,7 +23,7 @@ public class GameOverPage implements IGamePage{
 	public void keyPressed(int keyCode) {
 		switch(keyCode) {
 			case(10) :
-				Navigator.gameStatus.setGameStatus(Status.playing);
+				//Navigator.gameStatus.setGameStatus(Status.playing);
 				break;
 			}
 		

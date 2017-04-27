@@ -1,12 +1,11 @@
 package main.pages;
 
-import main.GameStatus.Status;
-import main.Navigator;
+import pages.IGamePage;
 import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PFont;
 
-public class MenuPage implements IGamePage {
+public class MenuPage extends IGamePage {
 
 	/*public MenuPage(PageListener listener, PApplet pApplet) {
 		super(listener, pApplet);
@@ -17,7 +16,7 @@ public class MenuPage implements IGamePage {
 	
 
 	@Override
-	public void drawPage() {
+	public void drawPage(PApplet pApplet, PFont mono) {
 		//this.drawText();
 		this.mono = this.pApplet.createFont("mono", 30);
 		this.pApplet.textFont(this.mono);
@@ -53,12 +52,12 @@ public class MenuPage implements IGamePage {
 	public void keyPressed(int keyCode) {
 		switch(keyCode) {
 			case(10) :
-				Navigator.gameStatus.setGameStatus(Status.playing);
+				//Navigator.gameStatus.setGameStatus(Status.playing);
 			break;
 			
 			case(76) :	// 'L' - load
 				this.pApplet.selectInput("Select a file to process:", "GameUtil.loadGame");
-			Navigator.gameStatus.setGameStatus(Status.playing);
+				//Navigator.gameStatus.setGameStatus(Status.playing);
 			break;
 			
 			case(83) :	// 'S' - save

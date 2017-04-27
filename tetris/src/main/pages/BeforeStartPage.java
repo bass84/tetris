@@ -1,35 +1,39 @@
 package main.pages;
 
+import navigator.Navigator;
+import pages.IGamePage;
 import processing.core.PApplet;
 import processing.core.PFont;
 
-public class BeforeStartPage implements IGamePage{
-	private PFont mono;
+public class BeforeStartPage extends IGamePage{
 	private PApplet pApplet;
 	
+	public BeforeStartPage(Navigator navigator) {
+		this.navigator = navigator;
+	}
+
 	@Override
-	public void drawPage() {
-		this.mono = ParentPage.getParentPage().getMono();
-		this.pApplet = ParentPage.getParentPage().getPApplet();
+	public void drawPage(PApplet pApplet, PFont mono) throws Exception {
+		this.pApplet = pApplet;
+		mono = pApplet.createFont("mono", 22);
+		pApplet.textFont(mono);
+		pApplet.fill(255, 255, 255);
+		pApplet.text("PRESS '1' Then Play Single", 55, 280);
+		pApplet.text("PRESS '2' Then Play Multi", 55, 330);
 		
-		this.mono = this.pApplet.createFont("mono", 22);
-		this.pApplet.textFont(this.mono);
-		this.pApplet.fill(255, 255, 255);
-		this.pApplet.text("PRESS '1' Then Play Single", 55, 280);
-		this.pApplet.text("PRESS '2' Then Play Multi", 55, 330);
 	}
 
 	@Override
 	public void keyPressed(int keyCode) {
-		
 		switch(keyCode) {
-			case 49 :	// single play page
-				ParentPage.getParentPage().getPageListener().movePlayPage(new SinglePlayPage());
+			case 49 :
+				this.navigator.push(new SinglePlayPage(this.pApplet));
 				break;
-			case 50 :	// multi play page
-				// something do
+			case 50 :
+				
 				break;
 		}
+		
 	}
 
 }

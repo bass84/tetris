@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import main.pages.PlayPage;
+import pages.PlayPage;
 import processing.core.PApplet;
 
 public class Grid implements BlockDraw{

@@ -3,6 +3,7 @@ package main.pages;
 import main.Grid;
 import main.Shape;
 import main.ShapeMapping.Kind;
+import pages.PlayPage;
 import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PFont;
@@ -14,16 +15,10 @@ public class SinglePlayPage extends PlayPage{
 	private int totalScore = 0;
 	private int term = 60;
 	private int[][] usedBlock = new int[11][16];
-	private PFont mono;
-	private PApplet pApplet;
 	
-	public SinglePlayPage() {
-		this.mono = ParentPage.getParentPage().getMono();
-		this.pApplet = ParentPage.getParentPage().getPApplet();
-		
-		this.shape = new Shape(this.pApplet);
-		this.grid = new Grid(this.pApplet);
-		
+	public SinglePlayPage(PApplet pApplet) {
+		this.shape = new Shape(pApplet);
+		this.grid = new Grid(pApplet);
 		
 		for(int i = 0; i < this.usedBlock.length; ++i) this.usedBlock[i][15] = -1;
 		for(int i = 0; i < this.usedBlock[0].length; ++i) this.usedBlock[0][i] = -1;
@@ -59,26 +54,26 @@ public class SinglePlayPage extends PlayPage{
 	}
 
 	@Override
-	public void drawPage() throws Exception{
+	public void drawPage(PApplet pApplet, PFont mono) throws Exception{
 			
 			if(grid.isBottom(this.usedBlock, this.shape)) {
 				this.increaseTotalScore(1000);
 				this.addUsedBlock(shape, usedBlock);
-				this.shape = new Shape(this.pApplet);
+				this.shape = new Shape(pApplet);
 				this.usedBlock = this.grid.getNewGridLine(this.usedBlock, this.shape, this);
 			}else{
-				this.pApplet.clear();
+				pApplet.clear();
 				this.grid.drawShape(this.usedBlock, this.shape);
 				this.shape.drawShape(this.usedBlock, shape);
-				if(this.pApplet.frameCount % this.term == 0) this.shape.increasePositionY();
+				if(pApplet.frameCount % this.term == 0) this.shape.increasePositionY();
 			}
 			
 			// draw text
-			this.mono = this.pApplet.createFont("mono", 15);
-			this.pApplet.textFont(this.mono);
-			this.pApplet.fill(255, 255, 255);
-			this.pApplet.textAlign(PConstants.LEFT, PConstants.CENTER);
-			this.pApplet.text("SCORE : " + totalScore, 12, 30);	
+			mono = pApplet.createFont("mono", 15);
+			pApplet.textFont(mono);
+			pApplet.fill(255, 255, 255);
+			pApplet.textAlign(PConstants.LEFT, PConstants.CENTER);
+			pApplet.text("SCORE : " + totalScore, 12, 30);	
 		
 		
 	}
@@ -136,10 +131,6 @@ public class SinglePlayPage extends PlayPage{
 					break;
 			}
 		}
-
-	
-
-	
 	
 
 }
