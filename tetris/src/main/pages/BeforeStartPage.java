@@ -13,24 +13,24 @@ public class BeforeStartPage extends IGamePage{
 	}
 
 	@Override
-	public void drawPage(PApplet pApplet, PFont mono) throws Exception {
-		this.pApplet = pApplet;
-		mono = pApplet.createFont("mono", 22);
-		pApplet.textFont(mono);
-		pApplet.fill(255, 255, 255);
-		pApplet.text("PRESS '1' Then Play Single", 55, 280);
-		pApplet.text("PRESS '2' Then Play Multi", 55, 330);
+	public void drawPage(Object pApplet, Object mono) throws Exception {
+		this.pApplet = (PApplet) pApplet;
+		mono = this.pApplet.createFont("mono", 22);
+		this.pApplet.textFont((PFont) mono);
+		this.pApplet.fill(255, 255, 255);
+		this.pApplet.text("PRESS '1' Then Play Single", 55, 280);
+		this.pApplet.text("PRESS '2' Then Play Multi", 55, 330);
 		
 	}
 
 	@Override
 	public void keyPressed(int keyCode) {
 		switch(keyCode) {
-			case 49 :
+			case 49 :	// press '1'
 				this.navigator.push(new SinglePlayPage(this.pApplet));
 				break;
-			case 50 :
-				
+			case 50 :	// press '2'
+				//this.navigator.push(new MultiPlayPage(this.pApplet));
 				break;
 		}
 		

@@ -8,7 +8,7 @@ public class GameOverPage extends IGamePage{
 	
 	
 	@Override
-	public void drawPage(PApplet pApplet, PFont mono) {
+	public void drawPage(Object pApplet, Object mono) {
 	}
 
 	/*@Override

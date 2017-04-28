@@ -16,7 +16,7 @@ public class MenuPage extends IGamePage {
 	
 
 	@Override
-	public void drawPage(PApplet pApplet, PFont mono) {
+	public void drawPage(Object pApplet, Object mono) {
 		//this.drawText();
 		this.mono = this.pApplet.createFont("mono", 30);
 		this.pApplet.textFont(this.mono);

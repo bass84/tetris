@@ -25,6 +25,16 @@ public class Grid implements BlockDraw{
 					|| usedBlock[shapeInfo[i][0] + 1 + positionX][shapeInfo[i][1] + positionY] != 0)) return true;
 		}
 		
+		return false;
+	}
+	
+	public boolean checkGameOver(int[][] usedBlock, Shape shape) {
+		int[][] shapeInfo = shape.getShapeInfo();
+		int positionY = shape.getPositionY();
+		
+		for(int i = 0; i < shapeInfo.length; i++) {
+			if((shapeInfo[i][1] + positionY) < 1) return true;
+		}
 		
 		return false;
 	}
@@ -149,6 +159,8 @@ public class Grid implements BlockDraw{
 		
 		return currentHeightestLine;
 	}
+
+	
 
 	
 }

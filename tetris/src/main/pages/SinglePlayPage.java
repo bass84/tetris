@@ -15,6 +15,7 @@ public class SinglePlayPage extends PlayPage{
 	private int totalScore = 0;
 	private int term = 60;
 	private int[][] usedBlock = new int[11][16];
+	//private PApplet pApplet;
 	
 	public SinglePlayPage(PApplet pApplet) {
 		this.shape = new Shape(pApplet);
@@ -54,27 +55,40 @@ public class SinglePlayPage extends PlayPage{
 	}
 
 	@Override
-	public void drawPage(PApplet pApplet, PFont mono) throws Exception{
+	public void drawPage(Object applet, Object mono) throws Exception{
+			PApplet pApplet = (PApplet) applet;
 			
-			if(grid.isBottom(this.usedBlock, this.shape)) {
-				this.increaseTotalScore(1000);
-				this.addUsedBlock(shape, usedBlock);
-				this.shape = new Shape(pApplet);
-				this.usedBlock = this.grid.getNewGridLine(this.usedBlock, this.shape, this);
+			if(this.grid.isBottom(this.usedBlock, this.shape)) {
+				if(this.grid.checkGameOver(this.usedBlock, this.shape)) {
+				
+					//draw
+					
+					
+					
+					return;
+				}else{
+					this.addUsedBlock(shape, usedBlock);
+					this.increaseTotalScore(1000);
+					this.shape = new Shape(pApplet);
+					this.usedBlock = this.grid.getNewGridLine(this.usedBlock, this.shape, this);
+				}
+				
 			}else{
 				pApplet.clear();
 				this.grid.drawShape(this.usedBlock, this.shape);
 				this.shape.drawShape(this.usedBlock, shape);
 				if(pApplet.frameCount % this.term == 0) this.shape.increasePositionY();
+				
+				
+				// draw text
+				mono = pApplet.createFont("mono", 15);
+				pApplet.textFont((PFont)mono);
+				pApplet.fill(255, 255, 255);
+				pApplet.textAlign(PConstants.LEFT, PConstants.CENTER);
+				pApplet.text("SCORE : " + this.totalScore, 12, 30);
 			}
 			
-			// draw text
-			mono = pApplet.createFont("mono", 15);
-			pApplet.textFont(mono);
-			pApplet.fill(255, 255, 255);
-			pApplet.textAlign(PConstants.LEFT, PConstants.CENTER);
-			pApplet.text("SCORE : " + totalScore, 12, 30);	
-		
+			
 		
 	}
 	
